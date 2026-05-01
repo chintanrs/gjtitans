@@ -200,9 +200,12 @@ body.is-scrolled .hero-logo-wrapper {
 .match-scroller::-webkit-scrollbar {
   height: 0px;
 }
-.match-scroller {
-  scrollbar-width: none; /* Firefox */
+.match-scroller 
+{
+  padding-left: 56px;
+  padding-right: 56px;
 }
+
 
 /* Each card snaps */
 .match-card {
@@ -254,6 +257,7 @@ body.is-scrolled .hero-logo-wrapper {
 /* Overlay arrows: do not disturb cards */
 .carousel-arrow {
   position: absolute;
+  pointer-events: auto;
   top: 50%;
   transform: translateY(-50%);
   z-index: 3;
@@ -291,8 +295,7 @@ body.is-scrolled .hero-logo-wrapper {
 }
 
 /* Optional subtle edge fades (don’t block swipe) */
-.match-carousel::before,
-.match-carousel::after {
+{
   content: "";
   position: absolute;
   top: 0;
