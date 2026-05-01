@@ -1,0 +1,65 @@
+:root{
+  --bg:#071a2f;
+  --bgTop:#143d66;
+  --gold:#f5a623;
+  --text:#ffffff;
+  --glass: rgba(15,42,68,.92);
+}
+
+body{
+  font-family: "Segoe UI", system-ui, Arial, sans-serif;
+  color: var(--text);
+  background: radial-gradient(circle at top, var(--bgTop), var(--bg));
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* subtle ambient texture */
+body::before{
+  content:"";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: .05;
+  background: repeating-linear-gradient(135deg, rgba(255,255,255,.6) 0 1px, transparent 1px 16px);
+}
+
+.hero{
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 28px;
+  text-align: center;
+  position: relative;
+}
+
+.nav{
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--glass);
+  backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+  padding: 18px 14px;
+}
+
+.main{
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 80px 20px;
+}
+
+.page{ display: none; }
+.page.is-active{ display: block; }
+
+.footer{
+  margin-top: 80px;
+  padding: 44px 20px;
+  text-align: center;
+  background: rgba(0,0,0,.38);
+}
