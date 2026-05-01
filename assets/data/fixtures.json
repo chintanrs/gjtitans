@@ -5,60 +5,12 @@
       "name": "Friendship Cup",
       "season": "2026",
       "fixtures": [
-        {
-          "date": "2026-05-01",
-          "time": "TBD",
-          "teamA": "GJ Titans",
-          "teamB": "Telugu Titans",
-          "venue": "CRED / Sand Pitch",
-          "status": "upcoming",
-          "result": ""
-        },
-        {
-          "date": "2026-05-08",
-          "time": "TBD",
-          "teamA": "GJ Titans",
-          "teamB": "Spartans",
-          "venue": "CRED / Sand Pitch",
-          "status": "upcoming",
-          "result": ""
-        },
-        {
-          "date": "2026-05-15",
-          "time": "TBD",
-          "teamA": "GJ Titans",
-          "teamB": "Gladiators",
-          "venue": "CRED / Sand Pitch",
-          "status": "upcoming",
-          "result": ""
-        },
-        {
-          "date": "2026-05-22",
-          "time": "TBD",
-          "teamA": "GJ Titans",
-          "teamB": "CVR",
-          "venue": "CRED / Sand Pitch",
-          "status": "upcoming",
-          "result": ""
-        },
-        {
-          "date": "2026-06-12",
-          "time": "TBD",
-          "teamA": "Brampton Sharks",
-          "teamB": "GJ Titans",
-          "venue": "CRED / Sand Pitch",
-          "status": "upcoming",
-          "result": ""
-        },
-        {
-          "date": "2026-06-26",
-          "time": "TBD",
-          "teamA": "GJ Titans",
-          "teamB": "Spartans",
-          "venue": "CRED / Sand Pitch",
-          "status": "upcoming",
-          "result": ""
-        }
+        { "date": "2026-05-01", "time": "TBD", "teamA": "GJ Titans", "teamB": "Telugu Titans", "venue": "CRED / Sand Pitch" },
+        { "date": "2026-05-08", "time": "TBD", "teamA": "GJ Titans", "teamB": "Spartans", "venue": "CRED / Sand Pitch" },
+        { "date": "2026-05-15", "time": "TBD", "teamA": "GJ Titans", "teamB": "Gladiators", "venue": "CRED / Sand Pitch" },
+        { "date": "2026-05-22", "time": "TBD", "teamA": "GJ Titans", "teamB": "CVR", "venue": "CRED / Sand Pitch" },
+        { "date": "2026-06-12", "time": "TBD", "teamA": "Brampton Sharks", "teamB": "GJ Titans", "venue": "CRED / Sand Pitch" },
+        { "date": "2026-06-26", "time": "TBD", "teamA": "GJ Titans", "teamB": "Spartans", "venue": "CRED / Sand Pitch" }
       ]
     }
   ]
