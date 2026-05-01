@@ -3,155 +3,92 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>GJ Titans | Official Website</title>
+  <title>GJ Titans</title>
 
   <!-- Favicon -->
-  <link rel="icon" href="assets/images/logo.png" type="image/png" />
-  <link rel="apple-touch-icon" href="assets/images/logo.png" />
+  <link rel="icon" href="assets/images/logo.png" type="image/png">
+  <link rel="apple-touch-icon" href="assets/images/logo.png">
 
   <!-- CSS -->
-  <link rel="stylesheet" href="assets/css/reset.css" />
-  <link rel="stylesheet" href="assets/css/layout.css" />
-  <link rel="stylesheet" href="assets/css/components.css" />
-  <link rel="stylesheet" href="assets/css/animations.css" />
+  <link rel="stylesheet" href="assets/css/reset.css">
+  <link rel="stylesheet" href="assets/css/layout.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/animations.css">
 </head>
 
 <body>
 
-  <!-- HERO -->
-  <header class="hero" id="top">
-    <!-- Wrapper is REQUIRED so float (on logo) + shrink (on wrapper) don’t fight -->
-    <div class="hero-logo-wrapper">
-      <img src="assets/images/logo.png" alt="GJ Titans logo" class="hero__logo" />
+<!-- ================= HERO ================= -->
+<header class="hero">
+  <div class="hero-logo-wrapper">
+    <img src="assets/images/logo.png" alt="GJ Titans logo" class="hero__logo">
+  </div>
+
+  <button class="scroll-cue" id="scrollCue" type="button">
+    <span>Scroll</span>
+    <span class="scroll-cue__arrow">↓</span>
+  </button>
+</header>
+
+<!-- ================= NAV ================= -->
+<nav class="nav">
+  <button class="nav__btn is-active" data-tab="fixtures">Fixtures</button>
+  <button class="nav__btn" data-tab="squad">Squad</button>
+  <button class="nav__btn" data-tab="gallery">Gallery</button>
+</nav>
+
+<!-- ================= CONTENT ================= -->
+<main class="main" id="content">
+
+  <!-- ========= FIXTURES (DATA‑DRIVEN) ========= -->
+  <section class="page is-active" id="fixtures">
+    <h1 class="page__title reveal">Fixtures</h1>
+    <p class="page__subtitle reveal" id="fixturesSubtitle">Friendship Cup</p>
+
+    <!-- ✅ JS will render accordion fixture tiles here -->
+    <div class="fixtures-grid" id="fixturesGrid"></div>
+  </section>
+
+  <!-- ========= SQUAD (DATA‑DRIVEN) ========= -->
+  <section class="page" id="squad">
+    <h1 class="page__title reveal">Squad</h1>
+    <p class="page__subtitle reveal">Filter by role</p>
+
+    <div class="filters reveal">
+      <button class="filter-btn is-active" data-role="all">All</button>
+      <button class="filter-btn" data-role="batsman">Batsmen</button>
+      <button class="filter-btn" data-role="allrounder">All‑Rounders</button>
+      <button class="filter-btn" data-role="bowler">Bowlers</button>
     </div>
 
-    <button class="scroll-cue" id="scrollCue" type="button" aria-label="Scroll to content">
-      <span>Scroll</span>
-      <span class="scroll-cue__arrow" aria-hidden="true">↓</span>
-    </button>
-  </header>
+    <!-- ✅ JS will render squad cards here -->
+    <div class="squad-grid" id="squadGrid"></div>
+  </section>
 
-  <!-- NAV -->
-  <nav class="nav" aria-label="Primary">
-    <button class="nav__btn is-active" data-tab="fixtures" type="button">Fixtures</button>
-    <button class="nav__btn" data-tab="squad" type="button">Squad</button>
-    <button class="nav__btn" data-tab="gallery" type="button">Gallery</button>
-  </nav>
+  <!-- ========= GALLERY ========= -->
+  <section class="page" id="gallery">
+    <h1 class="page__title reveal">Gallery</h1>
+    <p class="page__subtitle reveal">Photos coming soon 📸</p>
 
-  <!-- CONTENT -->
-  <main class="main" id="content">
+    <div class="gallery-placeholder reveal">
+      Photos coming soon 📸
+    </div>
+  </section>
 
-    <!-- FIXTURES -->
-    <section class="page is-active" id="fixtures">
-      <h1 class="page__title reveal">Fixtures</h1>
-      <p class="page__subtitle reveal">Friendship Cup</p>
+</main>
 
-      <div class="fixtures-grid">
-        <article class="fixture-card reveal">
-          <div class="fixture-date">May 1, 2026</div>
-          <div class="fixture-match">GJ Titans vs Telugu Titans</div>
-          <div class="fixture-meta">Friendship Cup</div>
-          <div class="fixture-venue">CRED / Sand Pitch</div>
-        </article>
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+  <img src="assets/images/logo.png" alt="GJ Titans logo" class="footer__logo">
+  <div class="footer__motto">United • Fearless • Titans</div>
+</footer>
 
-        <article class="fixture-card reveal">
-          <div class="fixture-date">May 8, 2026</div>
-          <div class="fixture-match">GJ Titans vs Spartans</div>
-          <div class="fixture-meta">Friendship Cup</div>
-          <div class="fixture-venue">CRED / Sand Pitch</div>
-        </article>
-
-        <article class="fixture-card reveal">
-          <div class="fixture-date">May 15, 2026</div>
-          <div class="fixture-match">GJ Titans vs Gladiators</div>
-          <div class="fixture-meta">Friendship Cup</div>
-          <div class="fixture-venue">CRED / Sand Pitch</div>
-        </article>
-
-        <article class="fixture-card reveal">
-          <div class="fixture-date">May 22, 2026</div>
-          <div class="fixture-match">GJ Titans vs CVR</div>
-          <div class="fixture-meta">Friendship Cup</div>
-          <div class="fixture-venue">CRED / Sand Pitch</div>
-        </article>
-
-        <article class="fixture-card reveal">
-          <div class="fixture-date">June 12, 2026</div>
-          <div class="fixture-match">Brampton Sharks vs GJ Titans</div>
-          <div class="fixture-meta">Friendship Cup</div>
-          <div class="fixture-venue">CRED / Sand Pitch</div>
-        </article>
-
-        <article class="fixture-card reveal">
-          <div class="fixture-date">June 26, 2026</div>
-          <div class="fixture-match">GJ Titans vs Spartans</div>
-          <div class="fixture-meta">Friendship Cup</div>
-          <div class="fixture-venue">CRED / Sand Pitch</div>
-        </article>
-      </div>
-    </section>
-
-    <!-- SQUAD -->
-    <section class="page" id="squad">
-      <h1 class="page__title reveal">Squad</h1>
-      <p class="page__subtitle reveal">Filter by role</p>
-
-      <div class="filters reveal">
-        <button class="filter-btn is-active" data-role="all" type="button">All</button>
-        <button class="filter-btn" data-role="batsman" type="button">Batsmen</button>
-        <button class="filter-btn" data-role="allrounder" type="button">All‑Rounders</button>
-        <button class="filter-btn" data-role="bowler" type="button">Bowlers</button>
-      </div>
-
-      <div class="squad-grid">
-        <!-- Batsmen -->
-        <article class="player-card reveal" data-role="batsman"><div class="player-name">Deep</div><div class="player-role">Batsman</div></article>
-        <article class="player-card reveal" data-role="batsman"><div class="player-name">Darshan</div><div class="player-role">Batsman</div></article>
-        <article class="player-card reveal" data-role="batsman"><div class="player-name">Swapnil</div><div class="player-role">Batsman</div></article>
-        <article class="player-card reveal" data-role="batsman"><div class="player-name">Guddu</div><div class="player-role">Batsman</div></article>
-
-        <!-- All Rounders -->
-        <article class="player-card reveal" data-role="allrounder"><div class="player-name">Anup</div><div class="player-role">All Rounder</div></article>
-        <article class="player-card reveal" data-role="allrounder"><div class="player-name">Jay</div><div class="player-role">All Rounder</div></article>
-        <article class="player-card reveal" data-role="allrounder"><div class="player-name">Chintan</div><div class="player-role">All Rounder</div></article>
-        <article class="player-card reveal" data-role="allrounder"><div class="player-name">Viral</div><div class="player-role">All Rounder</div></article>
-        <article class="player-card reveal" data-role="allrounder"><div class="player-name">Ronak</div><div class="player-role">All Rounder</div></article>
-        <article class="player-card reveal" data-role="allrounder"><div class="player-name">Parshav</div><div class="player-role">All Rounder</div></article>
-        <article class="player-card reveal" data-role="allrounder"><div class="player-name">Jaitra</div><div class="player-role">All Rounder</div></article>
-        <article class="player-card reveal" data-role="allrounder"><div class="player-name">Alay</div><div class="player-role">All Rounder</div></article>
-        <article class="player-card reveal" data-role="allrounder"><div class="player-name">Tapu</div><div class="player-role">All Rounder</div></article>
-
-        <!-- Bowlers -->
-        <article class="player-card reveal" data-role="bowler"><div class="player-name">Neel</div><div class="player-role">Bowler</div></article>
-        <article class="player-card reveal" data-role="bowler"><div class="player-name">Shreeji</div><div class="player-role">Bowler</div></article>
-        <article class="player-card reveal" data-role="bowler"><div class="player-name">Robin</div><div class="player-role">Bowler</div></article>
-        <article class="player-card reveal" data-role="bowler"><div class="player-name">Parth</div><div class="player-role">Bowler</div></article>
-      </div>
-    </section>
-
-    <!-- GALLERY -->
-    <section class="page" id="gallery">
-      <h1 class="page__title reveal">Gallery</h1>
-      <p class="page__subtitle reveal">Photos coming soon 📸</p>
-
-      <div class="gallery-placeholder reveal">
-        Photos coming soon 📸
-      </div>
-    </section>
-
-  </main>
-
-  <!-- FOOTER -->
-  <footer class="footer">
-    <img class="footer__logo" src="assets/images/logo.png" alt="GJ Titans logo" />
-    <div class="footer__motto">United • Fearless • Titans</div>
-    <div class="footer__copy">© 2026 GJ Titans</div>
-  </footer>
-
-  <!-- ✅ JS (REAL SCRIPT TAGS) -->
-  <script src="assets/js/navigation.js" defer></script>
-  <script src="assets/js/filters.js" defer></script>
-  <script src="assets/js/main.js" defer></script>
+<!-- ================= JS ================= -->
+<script src="assets/js/navigation.js" defer></script>
+<script src="assets/js/render-fixtures.js" defer></script>
+<script src="assets/js/render-squad.js" defer></script>
+<script src="assets/js/filters.js" defer></script>
+<script src="assets/js/main.js" defer></script>
 
 </body>
 </html>
