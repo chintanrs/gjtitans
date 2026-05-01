@@ -7,28 +7,28 @@
       "fixtures": [
         {
           "date": "2026-05-01",
-          "time": "TBD",
+          "time": "5:30 PM",
           "teamA": "GJ Titans",
           "teamB": "Telugu Titans",
-          "venue": "CRED / Sand Pitch"
+          "venue": "Flower City Cricket Ground"
         },
         {
           "date": "2026-05-08",
-          "time": "TBD",
+          "time": "5:30 PM",
           "teamA": "GJ Titans",
           "teamB": "Spartans",
           "venue": "CRED / Sand Pitch"
         },
         {
           "date": "2026-05-15",
-          "time": "TBD",
+          "time": "5:30 PM",
           "teamA": "GJ Titans",
           "teamB": "Gladiators",
           "venue": "CRED / Sand Pitch"
         },
         {
           "date": "2026-05-22",
-          "time": "TBD",
+          "time": "5:30 PM",
           "teamA": "GJ Titans",
           "teamB": "CVR",
           "venue": "CRED / Sand Pitch"
