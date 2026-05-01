@@ -6,89 +6,92 @@
   <title>GJ Titans</title>
 
   <!-- Favicon -->
-  <link rel="icon" href="assets/images/logo.png" type="image/png">
-  <link rel="apple-touch-icon" href="assets/images/logo.png">
+  <link rel="icon" href="assets/images/logo.png" type="image/png" />
+  <link rel="apple-touch-icon" href="assets/images/logo.png" />
 
   <!-- CSS -->
-  <link rel="stylesheet" href="assets/css/reset.css">
-  <link rel="stylesheet" href="assets/css/layout.css">
-  <link rel="stylesheet" href="assets/css/components.css">
-  <link rel="stylesheet" href="assets/css/animations.css">
+  <link rel="stylesheet" href="assets/css/reset.css" />
+  <link rel="stylesheet" href="assets/css/layout.css" />
+  <link rel="stylesheet" href="assets/css/components.css" />
+  <link rel="stylesheet" href="assets/css/animations.css" />
 </head>
 
 <body>
 
-<!-- ================= HERO ================= -->
-<header class="hero">
-  <div class="hero-logo-wrapper">
-    <img src="assets/images/logo.png" alt="GJ Titans logo" class="hero__logo">
-  </div>
-
-  <button class="scroll-cue" id="scrollCue" type="button">
-    <span>Scroll</span>
-    <span class="scroll-cue__arrow">↓</span>
-  </button>
-</header>
-
-<!-- ================= NAV ================= -->
-<nav class="nav">
-  <button class="nav__btn is-active" data-tab="fixtures">Fixtures</button>
-  <button class="nav__btn" data-tab="squad">Squad</button>
-  <button class="nav__btn" data-tab="gallery">Gallery</button>
-</nav>
-
-<!-- ================= CONTENT ================= -->
-<main class="main" id="content">
-
-  <!-- ========= FIXTURES (DATA‑DRIVEN) ========= -->
-  <section class="page is-active" id="fixtures">
-    <h1 class="page__title reveal">Fixtures</h1>
-    
-
-    <!-- ✅ JS will render accordion fixture tiles here -->
-    <div class="fixtures-grid" id="fixturesGrid"></div>
-  </section>
-
-  <!-- ========= SQUAD (DATA‑DRIVEN) ========= -->
-  <section class="page" id="squad">
-    <h1 class="page__title reveal">Squad</h1>
-    <p class="page__subtitle reveal">Filter by role</p>
-
-    <div class="filters reveal">
-      <button class="filter-btn is-active" data-role="all">All</button>
-      <button class="filter-btn" data-role="batsman">Batsmen</button>
-      <button class="filter-btn" data-role="allrounder">All‑Rounders</button>
-      <button class="filter-btn" data-role="bowler">Bowlers</button>
+  <!-- HERO -->
+  <header class="hero" id="top">
+    <div class="hero-logo-wrapper">
+      <img src="assets/images/logo.png" alt="GJ Titans logo" class="hero__logo" />
     </div>
 
-    <!-- ✅ JS will render squad cards here -->
-    <div class="squad-grid" id="squadGrid"></div>
-  </section>
+    <button class="scroll-cue" id="scrollCue" type="button" aria-label="Scroll to content">
+      <span>Scroll</span>
+      <span class="scroll-cue__arrow" aria-hidden="true">↓</span>
+    </button>
+  </header>
 
-  <!-- ========= GALLERY ========= -->
-  <section class="page" id="gallery">
-    <h1 class="page__title reveal">Gallery</h1>
-    <p class="page__subtitle reveal">Photos coming soon 📸</p>
+  <!-- NAV -->
+  <nav class="nav" aria-label="Primary">
+    <button class="nav__btn is-active" data-tab="fixtures" type="button">Fixtures</button>
+    <button class="nav__btn" data-tab="squad" type="button">Squad</button>
+    <button class="nav__btn" data-tab="gallery" type="button">Gallery</button>
+  </nav>
 
-    <div class="gallery-placeholder reveal">
-      Photos coming soon 📸
-    </div>
-  </section>
+  <!-- CONTENT -->
+  <main class="main" id="content">
 
-</main>
+    <!-- FIXTURES -->
+    <section class="page is-active" id="fixtures">
+      <h1 class="page__title reveal">Fixtures</h1>
+      <p class="page__subtitle reveal">Select a tournament</p>
 
-<!-- ================= FOOTER ================= -->
-<footer class="footer">
-  <img src="assets/images/logo.png" class="footer__logo">
-  <div class="footer__motto">United • Fearless • Titans</div>
-</footer>
+      <!-- Tournament tiles view -->
+      <div class="tournament-grid reveal" id="tournamentGrid"></div>
 
-<!-- ================= JS ================= -->
-<script src="assets/js/navigation.js" defer></script>
-<script src="assets/js/render-fixtures.js" defer></script>
-<script src="assets/js/render-squad.js" defer></script>
-<script src="assets/js/filters.js" defer></script>
-<script src="assets/js/main.js" defer></script>
+      <!-- Fixtures view (hidden until a tournament is selected) -->
+      <div class="tournament-fixtures is-hidden" id="tournamentFixtures">
+        <button class="back-btn" id="backToTournaments" type="button">← All tournaments</button>
+        <h2 class="tournament-heading" id="tournamentHeading"></h2>
+        <div class="fixtures-grid" id="fixturesGrid"></div>
+      </div>
+    </section>
+
+    <!-- SQUAD (unchanged here; your render-squad.js will fill squadGrid) -->
+    <section class="page" id="squad">
+      <h1 class="page__title reveal">Squad</h1>
+
+      <div class="filters reveal">
+        <button class="filter-btn is-active" data-role="all" type="button">All</button>
+        <button class="filter-btn" data-role="batsman" type="button">Batsmen</button>
+        <button class="filter-btn" data-role="allrounder" type="button">All‑Rounders</button>
+        <button class="filter-btn" data-role="bowler" type="button">Bowlers</button>
+      </div>
+
+      <div class="squad-grid" id="squadGrid"></div>
+    </section>
+
+    <!-- GALLERY -->
+    <section class="page" id="gallery">
+      <h1 class="page__title reveal">Gallery</h1>
+      <p class="page__subtitle reveal">Photos coming soon 📸</p>
+      <div class="gallery-placeholder reveal">Photos coming soon 📸</div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <img class="footer__logo" src="assets/images/logo.png" alt="GJ Titans logo" />
+    <div class="footer__motto">United • Fearless • Titans</div>
+    <div class="footer__copy">© 2026 GJ Titans</div>
+  </footer>
+
+  <!-- JS -->
+  <script src="assets/js/navigation.js" defer></script>
+  <script src="assets/js/render-fixtures.js" defer></script>
+  <script src="assets/js/render-squad.js" defer></script>
+  <script src="assets/js/filters.js" defer></script>
+  <script src="assets/js/main.js" defer></script>
 
 </body>
 </html>
