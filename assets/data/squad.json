@@ -1,0 +1,23 @@
+{
+  "items": [
+    { "name": "Deep", "role": "batsman" },
+    { "name": "Darshan", "role": "batsman" },
+    { "name": "Swapnil", "role": "batsman" },
+    { "name": "Guddu", "role": "batsman" },
+
+    { "name": "Anup", "role": "allrounder" },
+    { "name": "Jay", "role": "allrounder" },
+    { "name": "Chintan", "role": "allrounder" },
+    { "name": "Viral", "role": "allrounder" },
+    { "name": "Ronak", "role": "allrounder" },
+    { "name": "Parshav", "role": "allrounder" },
+    { "name": "Jaitra", "role": "allrounder" },
+    { "name": "Alay", "role": "allrounder" },
+    { "name": "Tapu", "role": "allrounder" },
+
+    { "name": "Neel", "role": "bowler" },
+    { "name": "Shreeji", "role": "bowler" },
+    { "name": "Robin", "role": "bowler" },
+    { "name": "Parth", "role": "bowler" }
+  ]
+}
