@@ -17,7 +17,6 @@
 </head>
 
 <body>
-
   <!-- HERO -->
   <header class="hero" id="top">
     <div class="hero-logo-wrapper">
@@ -39,28 +38,27 @@
 
   <!-- CONTENT -->
   <main class="main" id="content">
-
     <!-- FIXTURES -->
     <section class="page is-active" id="fixtures">
-      <h1 class="page__title reveal">Fixtures</h1>
-      <p class="page__subtitle reveal">Select a tournament</p>
+      <h1 class="page__title">Fixtures</h1>
+      <p class="page__subtitle">Select a tournament</p>
 
-      <!-- Tournament tiles view -->
-      <div class="tournament-grid reveal" id="tournamentGrid"></div>
+      <div class="tournament-grid" id="tournamentGrid"></div>
 
-      <!-- Fixtures view (hidden until a tournament is selected) -->
       <div class="tournament-fixtures is-hidden" id="tournamentFixtures">
         <button class="back-btn" id="backToTournaments" type="button">← All tournaments</button>
         <h2 class="tournament-heading" id="tournamentHeading"></h2>
-        <div class="fixtures-grid" id="fixturesGrid"></div>
+
+        <div class="fixtures-area" id="fixturesGrid"></div>
       </div>
     </section>
 
-    <!-- SQUAD (unchanged here; your render-squad.js will fill squadGrid) -->
+    <!-- SQUAD -->
     <section class="page" id="squad">
-      <h1 class="page__title reveal">Squad</h1>
+      <h1 class="page__title">Squad</h1>
+      <p class="page__subtitle">Filter by role</p>
 
-      <div class="filters reveal">
+      <div class="filters">
         <button class="filter-btn is-active" data-role="all" type="button">All</button>
         <button class="filter-btn" data-role="batsman" type="button">Batsmen</button>
         <button class="filter-btn" data-role="allrounder" type="button">All‑Rounders</button>
@@ -72,11 +70,10 @@
 
     <!-- GALLERY -->
     <section class="page" id="gallery">
-      <h1 class="page__title reveal">Gallery</h1>
-      <p class="page__subtitle reveal">Photos coming soon 📸</p>
-      <div class="gallery-placeholder reveal">Photos coming soon 📸</div>
+      <h1 class="page__title">Gallery</h1>
+      <p class="page__subtitle">Photos coming soon 📸</p>
+      <div class="gallery-placeholder">Photos coming soon 📸</div>
     </section>
-
   </main>
 
   <!-- FOOTER -->
@@ -92,6 +89,5 @@
   <script src="assets/js/render-squad.js" defer></script>
   <script src="assets/js/filters.js" defer></script>
   <script src="assets/js/main.js" defer></script>
-
 </body>
 </html>
