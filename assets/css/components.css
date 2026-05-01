@@ -13,6 +13,20 @@ body.is-scrolled .hero-logo-wrapper {
   max-width: 90vw;
 }
 
+/* Scroll cue */
+.scroll-cue {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+  opacity: 0.9;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.scroll-cue span:first-child { opacity: 0.85; }
+
 /* ================= NAV ================= */
 
 .nav__btn {
@@ -20,6 +34,7 @@ body.is-scrolled .hero-logo-wrapper {
   border: none;
   color: #fff;
   font-weight: 650;
+  letter-spacing: 1px;
   cursor: pointer;
   opacity: 0.65;
   position: relative;
@@ -31,8 +46,9 @@ body.is-scrolled .hero-logo-wrapper {
 .nav__btn.is-active::after {
   content: "";
   position: absolute;
-  inset-inline: 0;
+  left: 0;
   bottom: -8px;
+  width: 100%;
   height: 2px;
   background: var(--gold);
 }
@@ -51,24 +67,43 @@ body.is-scrolled .hero-logo-wrapper {
   margin-bottom: 26px;
 }
 
-/* ================= TOURNAMENT TILES ================= */
+/* ================= TOURNAMENT TILES (Beautiful, Option 1) ================= */
 
 .tournament-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 260px));
   justify-content: center;
   gap: 24px;
+  margin-top: 20px;
 }
 
 .tournament-card {
+  position: relative;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+
   aspect-ratio: 1 / 1;
   border-radius: 20px;
-  padding: 22px;
+
   background: linear-gradient(145deg, #163c63, #0b2036);
-  box-shadow: 0 18px 40px rgba(0,0,0,.45);
-  border: 1px solid rgba(255,255,255,.08);
-  cursor: pointer;
+  box-shadow: 0 18px 40px rgba(0,0,0,0.45);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+
+  padding: 22px;
   color: #fff;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.tournament-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 32px 64px rgba(0,0,0,0.7);
+  border-color: rgba(245,166,35,0.35);
+}
+
+.tournament-card:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(245,166,35,0.35) inset, 0 32px 64px rgba(0,0,0,0.7);
 }
 
 .tournament-card__inner {
@@ -76,6 +111,7 @@ body.is-scrolled .hero-logo-wrapper {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: flex-start;
   gap: 14px;
 }
 
@@ -83,134 +119,362 @@ body.is-scrolled .hero-logo-wrapper {
   font-size: 1.8rem;
   font-weight: 900;
   color: var(--gold);
+  line-height: 1.15;
 }
 
 .tournament-card__meta {
   font-size: 1.2rem;
+  font-weight: 700;
   opacity: 0.9;
 }
 
 .tournament-card__count {
   margin-top: auto;
+  padding-top: 14px;
+  font-size: 1rem;
+  font-weight: 750;
   opacity: 0.85;
 }
 
-/* ================= MATCH CAROUSEL (FIXED) ================= */
-
-/* OUTER WRAPPER — NO background, no shadows */
-.match-carousel {
-  position: relative;
-  margin-top: 12px;
+.tournament-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  background: radial-gradient(circle at top left, rgba(245,166,35,0.12), transparent 60%);
+  pointer-events: none;
 }
 
-/* SCROLLER — explicitly transparent */
-.match-scroller {
-  display: flex;
-  gap: 18px;
+/* ================= TOURNAMENT FIXTURES VIEW ================= */
 
-  /* KEY FIXES */
-  background: none !important;
-  box-shadow: none !important;
+.tournament-fixtures {
+  margin-top: 20px;
+}
+
+.back-btn {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.20);
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 700;
+  margin: 0 auto 20px;
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.back-btn:hover {
+  border-color: rgba(245,166,35,0.45);
+  background: rgba(245,166,35,0.12);
+}
+
+.tournament-heading {
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: 850;
+  margin-bottom: 20px;
+  color: #fff;
+  opacity: 0.95;
+}
+
+/* ================= MATCH CAROUSEL (Fixed: no rail, arrows not overlapping) ================= */
+
+.match-carousel {
+  position: relative;
+}
+
+/* IMPORTANT:
+   - No background / no "rail"
+   - Padding-inline creates safe zones so arrows never touch cards
+*/
+.match-scroller {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(260px, 1fr);
+  gap: 16px;
 
   overflow-x: auto;
   overflow-y: visible;
 
-  /* SAFE ZONE so arrows never touch cards */
-  padding-inline: 64px;
-  padding-block: 12px 20px;
+  padding: 10px 64px 18px;   /* ✅ SAFE ZONE for arrows */
+  background: transparent;   /* ✅ removes dark slab */
 
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+
+  border-radius: 0;          /* ✅ no track shape */
+  box-shadow: none;          /* ✅ no track shadow */
 }
 
 /* Hide scrollbar */
-.match-scroller::-webkit-scrollbar { display: none; }
+.match-scroller::-webkit-scrollbar { height: 0px; }
 .match-scroller { scrollbar-width: none; }
 
-/* CARD — stands alone, no shared slab */
+/* Match card */
 .match-card {
-  min-width: 280px;
   scroll-snap-align: start;
 
-  background: linear-gradient(145deg, #163c63, #0b2036);
+  border: 1px solid rgba(255,255,255,0.10);
   border-radius: 18px;
+  background: linear-gradient(145deg, #163c63, #0b2036);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.45);
+
   padding: 18px;
-
-  border: 1px solid rgba(255,255,255,.12);
-  box-shadow: 0 18px 40px rgba(0,0,0,.45);
-
-  color: #fff;
   cursor: pointer;
+  color: #fff;
+  text-align: left;
+
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.match-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 28px 55px rgba(0,0,0,0.65);
+  border-color: rgba(245,166,35,0.30);
+}
+
+.match-card:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(245,166,35,0.35) inset, 0 28px 55px rgba(0,0,0,0.65);
 }
 
 .match-card__date {
   color: var(--gold);
-  font-weight: 800;
+  font-weight: 850;
   margin-bottom: 8px;
 }
+
 .match-card__match {
-  font-size: 1.15rem;
+  font-size: 1.12rem;
   font-weight: 850;
+  line-height: 1.25;
 }
+
 .match-card__hint {
   margin-top: 14px;
   opacity: 0.7;
+  font-weight: 650;
+  font-size: 0.92rem;
 }
 
-/* ================= ARROWS (NON‑INTRUSIVE) ================= */
-
-/* FLOAT ABOVE — never in card plane */
+/* Overlay arrows (correct selectors for YOUR JS: .left / .right) */
 .carousel-arrow {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   z-index: 5;
 
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
 
-  background: rgba(12,36,63,.55);
+  border: 1px solid rgba(255,255,255,0.18);
+  background: rgba(15,42,68,0.40);
   backdrop-filter: blur(8px);
-  border: 1px solid rgba(255,255,255,.15);
 
   color: var(--gold);
-  font-size: 26px;
+  font-size: 28px;
+  line-height: 1;
   display: grid;
   place-items: center;
 
   cursor: pointer;
+  transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
-/* ALWAYS outside content zone */
-.carousel-arrow[data-dir="left"] {
-  left: 12px;
-}
-.carousel-arrow[data-dir="right"] {
-  right: 12px;
+/* ✅ Put arrows inside the safe padding zone, not on top of cards */
+.carousel-arrow.left { left: 14px; }
+.carousel-arrow.right { right: 14px; }
+
+.carousel-arrow:hover {
+  transform: translateY(-50%) scale(1.06);
 }
 
-/* Hidden state */
+/* Hide arrows at ends (JS toggles this class) */
 .carousel-arrow.is-hidden {
   opacity: 0;
   pointer-events: none;
 }
 
-/* ================= HIDDEN ================= */
+/* ================= MODAL (Tap card -> details) ================= */
+
+body.modal-open { overflow: hidden; }
+
+.match-modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  z-index: 999;
+}
+
+.match-modal.is-open { display: block; }
+
+.match-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(4px);
+}
+
+.match-modal__panel {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+
+  width: min(620px, calc(100vw - 32px));
+  background: linear-gradient(145deg, #163c63, #0b2036);
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,0.12);
+  box-shadow: 0 30px 70px rgba(0,0,0,0.75);
+
+  padding: 18px 18px 20px;
+}
+
+.match-modal__close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.18);
+  background: rgba(15,42,68,0.55);
+  color: #fff;
+  cursor: pointer;
+}
+
+.match-modal__title {
+  font-size: 1.2rem;
+  font-weight: 900;
+  margin-bottom: 6px;
+  padding-right: 44px;
+}
+
+.match-modal__meta {
+  color: var(--gold);
+  font-weight: 800;
+  opacity: 0.95;
+  margin-bottom: 14px;
+}
+
+.match-modal__rows {
+  display: grid;
+  gap: 12px;
+  border-top: 1px solid rgba(255,255,255,0.10);
+  padding-top: 14px;
+}
+
+.modal-row {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 14px;
+}
+
+.modal-label {
+  opacity: 0.75;
+  font-weight: 700;
+}
+
+.modal-value {
+  opacity: 0.95;
+  font-weight: 650;
+}
+
+@media (max-width: 520px) {
+  .modal-row { grid-template-columns: 1fr; gap: 6px; }
+}
+
+/* ================= SQUAD FILTERS (unchanged) ================= */
+
+.filters {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 34px;
+}
+
+.filter-btn {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.20);
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 650;
+}
+
+.filter-btn.is-active {
+  background: rgba(245,166,35,0.20);
+  border-color: var(--gold);
+}
+
+.squad-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 28px;
+}
+
+.player-card {
+  background: linear-gradient(145deg, #163c63, #0b2036);
+  padding: 28px;
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 18px 40px rgba(0,0,0,0.45);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.player-card:hover {
+  transform: translateY(-10px) scale(1.03);
+  box-shadow: 0 30px 60px rgba(0,0,0,0.7);
+}
+
+.player-name { font-size: 1.25rem; font-weight: 800; }
+.player-role { margin-top: 8px; opacity: 0.85; }
 
 .is-hidden { display: none !important; }
+
+/* ================= GALLERY ================= */
+
+.gallery-placeholder {
+  border: 2px dashed rgba(255,255,255,0.25);
+  border-radius: 16px;
+  padding: 100px 20px;
+  text-align: center;
+  opacity: 0.75;
+}
 
 /* ================= FOOTER ================= */
 
 .footer__logo {
   width: 80px;
+  max-width: 80px;
   margin: 0 auto 14px;
+  display: block;
+  opacity: 0.9;
 }
 
-/* ================= MOBILE ================= */
+.footer__motto {
+  font-weight: 750;
+  letter-spacing: 0.6px;
+  opacity: 0.95;
+}
 
-@media (max-width: 520px) {
-  .match-card {
-    min-width: 240px;
-  }
+.footer__copy {
+  margin-top: 14px;
+  opacity: 0.75;
+  font-size: 0.92rem;
+}
+
+/* ================= STATES ================= */
+
+.data-error,
+.empty-state {
+  text-align: center;
+  padding: 24px;
+  opacity: 0.85;
 }
