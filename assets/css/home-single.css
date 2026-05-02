@@ -1,0 +1,162 @@
+:root {
+  --bg1: #071a2f;
+  --bg2: #102c4f;
+  --gold: #f5a623;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  font-family: "Segoe UI", system-ui, -apple-system;
+  background: radial-gradient(circle at top, var(--bg2), var(--bg1));
+  overflow: hidden;
+}
+
+/* ---------------- Scene ---------------- */
+
+.scene {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* Background texture */
+.scene-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255,255,255,0.05), transparent 40%),
+    radial-gradient(circle at 80% 30%, rgba(255,255,255,0.04), transparent 45%),
+    linear-gradient(135deg, rgba(255,255,255,0.03) 0 1px, transparent 1px 18px);
+  pointer-events: none;
+}
+
+/* ---------------- Hint ---------------- */
+
+.scene-hint {
+  position: absolute;
+  top: 32px;
+  width: 100%;
+  text-align: center;
+  font-size: 0.65rem;
+  letter-spacing: 0.35em;
+  color: rgba(255,255,255,0.45);
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.scene.is-open .scene-hint {
+  opacity: 0.2;
+}
+
+/* ---------------- Logo ---------------- */
+
+.logo-core {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.logo-core img {
+  width: 260px;
+  filter:
+    drop-shadow(0 0 60px rgba(245,166,35,0.65));
+  animation: breathe 5s ease-in-out infinite;
+}
+
+@keyframes breathe {
+  0%,100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+/* ---------------- Radial Menu ---------------- */
+
+.radial-menu {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.menu-item {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  transform: translate(-50%, -50%) scale(0.4);
+  opacity: 0;
+
+  background: none;
+  border: none;
+  color: white;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  cursor: pointer;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+
+  transition:
+    transform 0.45s cubic-bezier(.2,.85,.2,1),
+    opacity 0.25s ease;
+}
+
+.menu-item span {
+  font-size: 0.7rem;
+}
+
+.scene.is-open .menu-item {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+  pointer-events: auto;
+}
+
+/* Positions */
+.scene.is-open .menu-item.squad {
+  transform: translate(-50%, calc(-50% - 180px));
+}
+
+.scene.is-open .menu-item.fixtures {
+  transform: translate(calc(-50% + 160px), calc(-50% + 120px));
+}
+
+.scene.is-open .menu-item.gallery {
+  transform: translate(calc(-50% - 160px), calc(-50% + 120px));
+}
+
+/* ---------------- Content Overlay ---------------- */
+
+.content-layer {
+  position: absolute;
+  inset: 0;
+  background: rgba(7,26,47,0.55);
+  backdrop-filter: blur(14px);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 20;
+  transition: opacity 0.4s ease;
+  padding: 80px 40px;
+  color: white;
+}
+
+.content-layer.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.content-layer h1 {
+  color: var(--gold);
+  font-size: 2.8rem;
+  margin-bottom: 16px;
+}
