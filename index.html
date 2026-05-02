@@ -13,19 +13,21 @@
 
 <section class="scene" id="scene">
 
-  <!-- Background -->
   <div class="scene-bg"></div>
 
   <!-- Subtle hint -->
   <div class="scene-hint">CLICK LOGO</div>
 
-  <!-- Energy arcs -->
-  <svg class="energy-arcs" id="energyArcs"
-       viewBox="0 0 1000 1000"
-       preserveAspectRatio="none">
+  <!-- ✅ FULLSCREEN SVG (same coordinate space as DOM) -->
+  <svg class="energy-arcs" id="energyArcs">
     <defs>
-      <filter id="arcGlow">
-        <feGaussianBlur stdDeviation="4" result="blur"/>
+      <linearGradient id="energyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#ffd27d"/>
+        <stop offset="100%" stop-color="#f5a623"/>
+      </linearGradient>
+
+      <filter id="energyGlow">
+        <feGaussianBlur stdDeviation="6" result="blur"/>
         <feMerge>
           <feMergeNode in="blur"/>
           <feMergeNode in="SourceGraphic"/>
@@ -40,10 +42,10 @@
 
   <!-- Logo -->
   <button class="logo-core" id="logoCore">
-    <img src="assets/images/logo.png" alt="GJ Titans logo" />
+    <img src="assets/images/logo.png" alt="GJ Titans Logo" />
   </button>
 
-  <!-- Radial menu -->
+  <!-- Menu -->
   <div class="radial-menu">
     <button class="menu-item squad" data-target="squad">
       🪖
@@ -61,10 +63,8 @@
     </button>
   </div>
 
-  <!-- Overlay content -->
   <div class="content-layer" id="contentLayer"></div>
 
-  <!-- Particles -->
   <canvas id="particles"></canvas>
 
 </section>
