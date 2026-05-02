@@ -2,15 +2,21 @@ const scene = document.getElementById("scene");
 const logo = document.getElementById("logoCore");
 const content = document.getElementById("contentLayer");
 
-/* Particles */
+/* SVG paths */
+const arcSquad = document.getElementById("arc-squad");
+const arcFixtures = document.getElementById("arc-fixtures");
+const arcGallery = document.getElementById("arc-gallery");
+
+/* Canvas */
 const canvas = document.getElementById("particles");
 const ctx = canvas.getContext("2d");
+
 resize();
-window.addEventListener("resize", resize);
+window.addEventListener("resize", () => {
+  resize();
+  if (scene.classList.contains("is-open")) drawArcs();
+});
 
-let particles = [];
-
-/* Toggle */
 logo.addEventListener("click", e => {
   e.stopPropagation();
   scene.classList.toggle("is-open");
@@ -23,7 +29,6 @@ document.addEventListener("click", () => {
   content.classList.remove("is-visible");
 });
 
-/* Menu click */
 document.querySelectorAll(".menu-item").forEach(btn => {
   btn.addEventListener("click", e => {
     e.stopPropagation();
@@ -32,39 +37,54 @@ document.querySelectorAll(".menu-item").forEach(btn => {
   });
 });
 
-/* ✅ SUPER‑NOVA ARCS */
+/* ✅ SUPER‑NOVA TRAILS — DOM‑BASED */
 function drawArcs() {
-  const center = { x: 500, y: 500 };
+  const logoRect = logo.getBoundingClientRect();
 
-  drawArc("arc-squad", center, { x: 500, y: 160 }, -160);
-  drawArc("arc-fixtures", center, { x: 860, y: 760 }, 120);
-  drawArc("arc-gallery", center, { x: 140, y: 760 }, 120);
+  connect(arcSquad, logoRect, document.querySelector(".menu-item.squad"));
+  connect(arcFixtures, logoRect, document.querySelector(".menu-item.fixtures"));
+  connect(arcGallery, logoRect, document.querySelector(".menu-item.gallery"));
 }
 
-function drawArc(id, from, to, curve) {
-  const path = document.getElementById(id);
+function connect(path, fromEl, toEl) {
+  const a = fromEl.getBoundingClientRect();
+  const b = toEl.getBoundingClientRect();
 
-  const cx = (from.x + to.x) / 2;
-  const cy = (from.y + to.y) / 2 + curve;
+  const x1 = a.left + a.width / 2;
+  const y1 = a.top + a.height / 2;
+
+  const x2 = b.left + b.width / 2;
+  const y2 = b.top + b.height / 2;
+
+  const dx = x2 - x1;
+  const dy = y2 - y1;
+
+  const cx1 = x1 + dx * 0.25 - dy * 0.2;
+  const cy1 = y1 + dy * 0.25 + dx * 0.2;
+
+  const cx2 = x1 + dx * 0.75 + dy * 0.2;
+  const cy2 = y1 + dy * 0.75 - dx * 0.2;
 
   path.setAttribute(
     "d",
-    `M ${from.x},${from.y}
-     C ${cx},${cy}
-       ${cx},${cy}
-       ${to.x},${to.y}`
+    `M ${x1},${y1}
+     C ${cx1},${cy1}
+       ${cx2},${cy2}
+       ${x2},${y2}`
   );
 }
 
-/* ✅ PARTICLE BURST */
+/* ✅ PARTICLES */
+let particles = [];
+
 function burst() {
-  for (let i = 0; i < 42; i++) {
+  for (let i = 0; i < 48; i++) {
     particles.push({
       x: canvas.width / 2,
       y: canvas.height / 2,
-      vx: (Math.random() - 0.5) * 8,
-      vy: (Math.random() - 0.5) * 8,
-      life: 40
+      vx: (Math.random() - 0.5) * 9,
+      vy: (Math.random() - 0.5) * 9,
+      life: 45
     });
   }
 }
@@ -78,9 +98,9 @@ function animate() {
     p.y += p.vy;
     p.life--;
 
-    ctx.fillStyle = `rgba(245,166,35,${p.life / 40})`;
+    ctx.fillStyle = `rgba(245,166,35,${p.life / 45})`;
     ctx.beginPath();
-    ctx.arc(p.x, p.y, 2.5, 0, Math.PI * 2);
+    ctx.arc(p.x, p.y, 3, 0, Math.PI * 2);
     ctx.fill();
   });
 
@@ -93,7 +113,7 @@ function resize() {
   canvas.height = window.innerHeight;
 }
 
-/* ✅ REAL DATA */
+/* Real data */
 async function loadContent(type) {
   content.classList.add("is-visible");
 
@@ -118,3 +138,4 @@ async function loadContent(type) {
     content.innerHTML = `<h1>Gallery</h1><p>Coming soon.</p>`;
   }
 }
+``
