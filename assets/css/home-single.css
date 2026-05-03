@@ -2,6 +2,7 @@
   --bg1:#071a2f;
   --bg2:#102c4f;
   --gold:#f5a623;
+  --gold2:#ffd27d;
 }
 
 html,body{
@@ -9,25 +10,26 @@ html,body{
   width:100%;
   height:100%;
   overflow:hidden;
-  background: radial-gradient(circle at center, var(--bg2), var(--bg1));
-  font-family: system-ui, -apple-system, Segoe UI;
+  font-family: system-ui, -apple-system, "Segoe UI", Arial;
+  background: radial-gradient(circle at 50% 45%, var(--bg2), var(--bg1));
 }
 
-/* SCENE */
 .scene{
   position:relative;
   width:100%;
   height:100%;
+  isolation:isolate;
 }
 
 .scene-bg{
   position:absolute;
   inset:0;
   background:
-    radial-gradient(circle at 50% 55%, rgba(245,166,35,.08), transparent 55%);
+    radial-gradient(circle at 20% 20%, rgba(255,255,255,0.06), transparent 40%),
+    radial-gradient(circle at 80% 30%, rgba(255,255,255,0.04), transparent 45%),
+    radial-gradient(circle at 50% 55%, rgba(245,166,35,0.08), transparent 55%);
 }
 
-/* HINT */
 .scene-hint{
   position:absolute;
   top:22px;
@@ -35,50 +37,52 @@ html,body{
   text-align:center;
   font-size:.65rem;
   letter-spacing:.45em;
-  color:rgba(255,255,255,.3);
+  color:rgba(255,255,255,.28);
+  pointer-events:none;
+  z-index:5;
 }
 
-/* LOGO (slightly reduced) */
+/* Logo */
 .logo-core{
   position:absolute;
   left:50%;
   top:50%;
-  transform:translate(-50%,-50%);
+  transform: translate(-50%, -50%);
   background:none;
   border:none;
   cursor:pointer;
-  z-index:3;
+  z-index:6;
 }
 
 .logo-core img{
-  width: min(700px, 86vw);
-  filter: drop-shadow(0 0 120px rgba(245,166,35,.8));
-  animation:breathe 6s ease-in-out infinite;
+  width: min(720px, 88vw);
+  filter: drop-shadow(0 0 140px rgba(245,166,35,0.85));
+  animation: breathe 6s ease-in-out infinite;
 }
 
 @keyframes breathe{
-  0%,100%{transform:scale(1)}
-  50%{transform:scale(1.05)}
+  0%,100%{ transform: scale(1); }
+  50%{ transform: scale(1.06); }
 }
 
-/* MENU */
+/* Menu */
 .radial-menu{
   position:absolute;
   inset:0;
-  z-index:5;
   pointer-events:none;
+  z-index:8;
 }
 
 .menu-item{
   position:absolute;
   left:50%;
   top:50%;
-  transform:translate(-50%,-50%) scale(.7);
+  transform: translate(-50%, -50%) scale(.6);
   opacity:0;
   pointer-events:none;
   background:none;
   border:none;
-  color:white;
+  color:#fff;
   cursor:pointer;
   display:flex;
   flex-direction:column;
@@ -86,50 +90,87 @@ html,body{
   gap:10px;
   font-weight:900;
   letter-spacing:.25em;
-  transition:.45s cubic-bezier(.15,.9,.25,1);
+  transition:
+    transform .55s cubic-bezier(.15,.9,.25,1),
+    opacity .25s ease;
+}
+
+.menu-item .mi-icon{
+  font-size:28px;
+  filter: drop-shadow(0 0 12px rgba(245,166,35,0.25));
 }
 
 .menu-item .mi-text{
-  font-size:1.25rem;
+  font-size:1.35rem;
 }
 
 .scene.is-open .menu-item{
   opacity:1;
   pointer-events:auto;
-  transform:translate(-50%,-50%) scale(1);
+  transform: translate(-50%, -50%) scale(1);
 }
 
-/* SVG ARCS (behind logo) */
+/* ✅ SVG arcs - visible + behind logo */
 .energy-arcs{
   position:absolute;
   inset:0;
-  z-index:1;
+  width:100%;
+  height:100%;
   pointer-events:none;
+  z-index:3;
 }
 
 .energy-arcs path{
   fill:none;
-  stroke-width:4;
+
+  /* ✅ one-line visibility tweak (baked in) */
+  stroke-width: 6;
+
   stroke-linecap:round;
-  stroke-dasharray: 8 14;
-  animation:flow 2s linear infinite;
+  filter:url(#energyGlow);
+
+  stroke-dasharray: 10 16;
+  animation: dashFlow 1.8s linear infinite;
+
   opacity:0;
+  transition: opacity .25s ease;
+
+  /* fallback in case gradient fails */
+  stroke: rgba(245,166,35,0.95);
 }
 
 .scene.is-open .energy-arcs path{
   opacity:1;
 }
 
-@keyframes flow{
-  to{stroke-dashoffset:-44}
+@keyframes dashFlow{
+  from{ stroke-dashoffset:0; }
+  to{ stroke-dashoffset:-52; }
 }
 
-/* END DOT */
 .arc-dot{
   r:4;
-  fill:var(--gold);
-  filter:drop-shadow(0 0 8px rgba(245,166,35,.9));
+  fill: var(--gold);
+  filter: drop-shadow(0 0 12px rgba(245,166,35,0.95));
   opacity:0;
 }
 
 .scene.is-open .arc-dot{ opacity:1 }
+
+/* Overlay minimal */
+.content-layer{
+  position:absolute;
+  inset:0;
+  z-index:20;
+  background: rgba(7,26,47,0.55);
+  backdrop-filter: blur(18px);
+  opacity:0;
+  pointer-events:none;
+}
+
+/* Mobile */
+@media (max-width: 768px){
+  .logo-core img{ width: min(500px, 92vw); }
+  .menu-item .mi-text{ font-size:1.05rem; letter-spacing:.22em; }
+  .menu-item .mi-icon{ font-size:24px; }
+}
