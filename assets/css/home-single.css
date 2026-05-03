@@ -1,46 +1,52 @@
-/* === existing variables and base styles stay the same === */
+/* === Energy arcs === */
+
+.energy-arcs {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* hard lock */
+  z-index: 2;
+}
 
 .energy-arcs path {
   fill: none;
-  stroke: rgba(245,166,35,0.95);
+  stroke: url(#energyGrad);
   stroke-width: 4;
   stroke-linecap: round;
   filter: url(#energyGlow);
+
+  /* ✅ animated flow */
+  stroke-dasharray: 8 16;
+  animation: energyFlow 2s linear infinite;
+
   opacity: 0;
-
-  /* ✅ animated energy flow */
-  stroke-dasharray: 6 14;
-  animation: energyFlow 1.8s linear infinite;
-}
-
-/* ✅ fade near the end (taper illusion) */
-.energy-arcs path {
-  mask-image: linear-gradient(
-    to right,
-    rgba(255,255,255,1) 0%,
-    rgba(255,255,255,1) 70%,
-    rgba(255,255,255,0.4) 85%,
-    rgba(255,255,255,0) 100%
-  );
+  transition: opacity 0.3s ease;
 }
 
 .scene.is-open .energy-arcs path {
   opacity: 1;
 }
 
-@keyframes energyFlow {
-  from { stroke-dashoffset: 0; }
-  to   { stroke-dashoffset: -40; }
-}
-
-/* ✅ glowing endpoint dot */
+/* ✅ glow dot at endpoint */
 .arc-dot {
   fill: #f5a623;
   filter: drop-shadow(0 0 10px rgba(245,166,35,0.9));
   opacity: 0;
-  transition: opacity 0.3s ease;
 }
 
 .scene.is-open .arc-dot {
   opacity: 1;
+}
+
+/* ✅ flow animation */
+@keyframes energyFlow {
+  from { stroke-dashoffset: 0; }
+  to   { stroke-dashoffset: -48; }
+}
+
+/* ✅ ensure arcs never cover text */
+.menu-item {
+  position: absolute;
+  z-index: 5;
 }
