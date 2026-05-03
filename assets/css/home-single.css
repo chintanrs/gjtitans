@@ -43,7 +43,7 @@ html, body{
 }
 
 .logo-core img{
-  width:min(680px, 88vw);
+  width:min(660px, 86vw);
   filter:drop-shadow(0 0 120px rgba(245,166,35,.8));
 }
 
@@ -59,9 +59,9 @@ html, body{
   position:absolute;
   top:50%;
   left:50%;
-
   transform:translate(-50%,-50%) scale(.6);
   opacity:0;
+  pointer-events:none;
 
   background:none;
   border:none;
@@ -75,10 +75,9 @@ html, body{
 
   font-weight:800;
   letter-spacing:.22em;
-
   transition:
-    transform 0.45s cubic-bezier(.2,.8,.2,1),
-    opacity 0.25s ease;
+    transform 0.35s cubic-bezier(.2,.8,.2,1),
+    opacity 0.2s ease;
 }
 
 .menu-item .icon{
@@ -86,22 +85,17 @@ html, body{
 }
 
 .menu-item .label{
-  font-size:1.2rem;
+  font-size:1.15rem;
 }
 
-/* OPEN STATE */
 .scene.is-open .menu-item{
   opacity:1;
   pointer-events:auto;
   transform:translate(-50%,-50%) scale(1);
 }
 
-/* MOBILE */
+/* Mobile */
 @media (max-width:768px){
-  .logo-core img{
-    width:min(480px,92vw);
-  }
-  .menu-item .label{
-    font-size:1rem;
-  }
+  .logo-core img{ width:min(460px,92vw); }
+  .menu-item .label{ font-size:1rem; }
 }
