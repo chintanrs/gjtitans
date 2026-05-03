@@ -24,7 +24,7 @@ const grads = {
 
 const items = [...document.querySelectorAll(".menu-item")];
 
-/* ============ Interaction ============ */
+/* ================= Interaction ================= */
 
 logo.addEventListener("click", (e) => {
   e.stopPropagation();
@@ -55,7 +55,7 @@ items.forEach(btn => {
   });
 });
 
-/* ============ Menu Position ============ */
+/* ================= Menu Position ================= */
 
 function positionMenu(){
   const r = logo.getBoundingClientRect();
@@ -63,7 +63,7 @@ function positionMenu(){
   const cy = r.top + r.height/2;
 
   const minDim = Math.min(window.innerWidth, window.innerHeight);
-  const radius = Math.min(minDim * 0.32, 320);
+  const radius = Math.min(minDim * 0.30, 300); // ✅ slightly tighter
 
   const layoutDeg = {
     squad: -90,
@@ -78,7 +78,7 @@ function positionMenu(){
   });
 }
 
-/* ============ Supernova Arcs (FROM BEHIND LOGO) ============ */
+/* ================= FINAL ARC GEOMETRY ================= */
 
 function setGradient(gradEl, x1, y1, x2, y2){
   gradEl.setAttribute("x1", x1);
@@ -87,7 +87,7 @@ function setGradient(gradEl, x1, y1, x2, y2){
   gradEl.setAttribute("y2", y2);
   gradEl.innerHTML = `
     <stop offset="0%" stop-color="#ffd27d" stop-opacity="1"/>
-    <stop offset="70%" stop-color="#f5a623" stop-opacity="0.95"/>
+    <stop offset="75%" stop-color="#f5a623" stop-opacity="0.9"/>
     <stop offset="92%" stop-color="#f5a623" stop-opacity="0.35"/>
     <stop offset="100%" stop-color="#f5a623" stop-opacity="0"/>
   `;
@@ -98,8 +98,8 @@ function drawArcs(){
   const logoCX = a.left + a.width / 2;
   const logoCY = a.top + a.height / 2;
 
-  /* ✅ arc starts OUTSIDE logo */
-  const logoRadius = a.width / 2 + 16;
+  // ✅ start just outside logo
+  const logoRadius = a.width / 2 + 14;
 
   items.forEach(btn => {
     const key = btn.dataset.key;
@@ -112,20 +112,22 @@ function drawArcs(){
     const dy = endY - logoCY;
     const len = Math.hypot(dx, dy) || 1;
 
-    /* ✅ START POINT (behind logo edge) */
+    // ✅ start and end points
     const startX = logoCX + (dx/len) * logoRadius;
     const startY = logoCY + (dy/len) * logoRadius;
 
-    /* ✅ STOP BEFORE TEXT */
-    const stopOffset = 62;
+    const stopOffset = 48; // ✅ shorter arc → better alignment
     endX -= (dx/len) * stopOffset;
     endY -= (dy/len) * stopOffset;
 
-    /* ✅ Supernova curve */
-    const c1x = startX + dx * 0.28 - dy * 0.42;
-    const c1y = startY + dy * 0.28 + dx * 0.42;
-    const c2x = startX + dx * 0.72 + dy * 0.30;
-    const c2y = startY + dy * 0.72 - dx * 0.30;
+    // ✅ CONTROL POINTS — TIGHT & ALIGNED
+    const curveStrength = 0.18; // <<< THIS IS THE KEY (reduced from ~0.4)
+
+    const c1x = startX + dx * 0.35 - dy * curveStrength * len;
+    const c1y = startY + dy * 0.35 + dx * curveStrength * len;
+
+    const c2x = startX + dx * 0.65 + dy * curveStrength * len;
+    const c2y = startY + dy * 0.65 - dx * curveStrength * len;
 
     paths[key].setAttribute(
       "d",
@@ -143,7 +145,7 @@ function drawArcs(){
   });
 }
 
-/* ============ Resize ============ */
+/* ================= Resize ================= */
 
 window.addEventListener("resize", () => {
   if (scene.classList.contains("is-open")) {
