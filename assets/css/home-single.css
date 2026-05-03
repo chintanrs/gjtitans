@@ -1,176 +1,107 @@
 :root{
   --bg1:#071a2f;
   --bg2:#102c4f;
-  --gold:#f5a623;
-  --gold2:#ffd27d;
 }
 
-html,body{
+html, body{
   margin:0;
   width:100%;
   height:100%;
   overflow:hidden;
-  font-family: system-ui, -apple-system, "Segoe UI", Arial;
-  background: radial-gradient(circle at 50% 45%, var(--bg2), var(--bg1));
+  font-family: system-ui, -apple-system, "Segoe UI";
 }
 
 .scene{
   position:relative;
   width:100%;
   height:100%;
-  isolation:isolate;
+  background: radial-gradient(circle at center, var(--bg2), var(--bg1));
 }
 
-.scene-bg{
-  position:absolute;
-  inset:0;
-  background:
-    radial-gradient(circle at 20% 20%, rgba(255,255,255,0.06), transparent 40%),
-    radial-gradient(circle at 80% 30%, rgba(255,255,255,0.04), transparent 45%),
-    radial-gradient(circle at 50% 55%, rgba(245,166,35,0.08), transparent 55%);
-}
-
+/* Hint */
 .scene-hint{
   position:absolute;
-  top:22px;
+  top:20px;
   width:100%;
   text-align:center;
   font-size:.65rem;
-  letter-spacing:.45em;
-  color:rgba(255,255,255,.28);
+  letter-spacing:.4em;
+  color:rgba(255,255,255,.3);
   pointer-events:none;
-  z-index:5;
 }
 
-/* Logo */
+/* LOGO */
 .logo-core{
   position:absolute;
-  left:50%;
   top:50%;
-  transform: translate(-50%, -50%);
+  left:50%;
+  transform:translate(-50%,-50%);
   background:none;
   border:none;
   cursor:pointer;
-  z-index:6;
+  z-index:2;
 }
 
 .logo-core img{
-  width: min(720px, 88vw);
-  filter: drop-shadow(0 0 140px rgba(245,166,35,0.85));
-  animation: breathe 6s ease-in-out infinite;
+  width:min(680px, 88vw);
+  filter:drop-shadow(0 0 120px rgba(245,166,35,.8));
 }
 
-@keyframes breathe{
-  0%,100%{ transform: scale(1); }
-  50%{ transform: scale(1.06); }
-}
-
-/* Menu */
+/* OPTIONS */
 .radial-menu{
   position:absolute;
   inset:0;
   pointer-events:none;
-  z-index:8;
+  z-index:3;
 }
 
 .menu-item{
   position:absolute;
-  left:50%;
   top:50%;
-  transform: translate(-50%, -50%) scale(.6);
+  left:50%;
+
+  transform:translate(-50%,-50%) scale(.6);
   opacity:0;
-  pointer-events:none;
+
   background:none;
   border:none;
-  color:#fff;
+  color:white;
   cursor:pointer;
+
   display:flex;
   flex-direction:column;
   align-items:center;
-  gap:10px;
-  font-weight:900;
-  letter-spacing:.25em;
+  gap:8px;
+
+  font-weight:800;
+  letter-spacing:.22em;
+
   transition:
-    transform .55s cubic-bezier(.15,.9,.25,1),
-    opacity .25s ease;
+    transform 0.45s cubic-bezier(.2,.8,.2,1),
+    opacity 0.25s ease;
 }
 
-.menu-item .mi-icon{
-  font-size:28px;
-  filter: drop-shadow(0 0 12px rgba(245,166,35,0.25));
+.menu-item .icon{
+  font-size:26px;
 }
 
-.menu-item .mi-text{
-  font-size:1.35rem;
+.menu-item .label{
+  font-size:1.2rem;
 }
 
+/* OPEN STATE */
 .scene.is-open .menu-item{
   opacity:1;
   pointer-events:auto;
-  transform: translate(-50%, -50%) scale(1);
+  transform:translate(-50%,-50%) scale(1);
 }
 
-/* ✅ SVG arcs - visible + behind logo */
-.energy-arcs{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  pointer-events:none;
-  z-index:3;
-}
-
-.energy-arcs path{
-  fill:none;
-
-  /* ✅ one-line visibility tweak (baked in) */
-  stroke-width: 6;
-
-  stroke-linecap:round;
-  filter:url(#energyGlow);
-
-  stroke-dasharray: 10 16;
-  animation: dashFlow 1.8s linear infinite;
-
-  opacity:0;
-  transition: opacity .25s ease;
-
-  /* fallback in case gradient fails */
-  stroke: rgba(245,166,35,0.95);
-}
-
-.scene.is-open .energy-arcs path{
-  opacity:1;
-}
-
-@keyframes dashFlow{
-  from{ stroke-dashoffset:0; }
-  to{ stroke-dashoffset:-52; }
-}
-
-.arc-dot{
-  r:4;
-  fill: var(--gold);
-  filter: drop-shadow(0 0 12px rgba(245,166,35,0.95));
-  opacity:0;
-}
-
-.scene.is-open .arc-dot{ opacity:1 }
-
-/* Overlay minimal */
-.content-layer{
-  position:absolute;
-  inset:0;
-  z-index:20;
-  background: rgba(7,26,47,0.55);
-  backdrop-filter: blur(18px);
-  opacity:0;
-  pointer-events:none;
-}
-
-/* Mobile */
-@media (max-width: 768px){
-  .logo-core img{ width: min(500px, 92vw); }
-  .menu-item .mi-text{ font-size:1.05rem; letter-spacing:.22em; }
-  .menu-item .mi-icon{ font-size:24px; }
+/* MOBILE */
+@media (max-width:768px){
+  .logo-core img{
+    width:min(480px,92vw);
+  }
+  .menu-item .label{
+    font-size:1rem;
+  }
 }
