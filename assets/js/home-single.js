@@ -2,6 +2,7 @@ const scene = document.getElementById("scene");
 const logo = document.getElementById("logoCore");
 const items = [...document.querySelectorAll(".menu-item")];
 
+// Toggle menu
 logo.addEventListener("click", (e) => {
   e.stopPropagation();
   scene.classList.toggle("is-open");
@@ -15,25 +16,26 @@ scene.addEventListener("click", () => {
   scene.classList.remove("is-open");
 });
 
-// Stop option clicks from closing
+// Prevent option clicks from closing
 items.forEach(btn => {
   btn.addEventListener("click", (e) => {
     e.stopPropagation();
     console.log(`${btn.dataset.key} clicked`);
-    // future overlay logic can go here
   });
 });
 
 function positionItems(){
   const rect = logo.getBoundingClientRect();
-  const cx = rect.left + rect.width/2;
-  const cy = rect.top + rect.height/2;
+  const cx = rect.left + rect.width / 2;
+  const cy = rect.top + rect.height / 2;
 
-  // ✅ radius safely OUTSIDE logo
-  const radius = rect.width/2 + 120;
+  /* ✅ KEY FIX:
+     Keep options close, but safely outside logo */
+  const paddingFromLogo = 48; // ← adjust this ONE value if needed
+  const radius = rect.width / 2 + paddingFromLogo;
 
   const layout = {
-    squad: -90,
+    squad:   -90,
     gallery: 180,
     fixtures: 40
   };
@@ -48,6 +50,7 @@ function positionItems(){
   });
 }
 
+// Recalculate on resize
 window.addEventListener("resize", () => {
   if(scene.classList.contains("is-open")){
     positionItems();
