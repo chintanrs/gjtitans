@@ -25,15 +25,13 @@ document.addEventListener("click", () => {
   content.classList.remove("is-visible");
 });
 
-/* ✅ MENU POSITIONING — CLAMPED */
+/* ✅ MENU POSITIONING — SAFE & CLICKABLE */
 function positionMenu() {
   const rect = logo.getBoundingClientRect();
   const cx = rect.left + rect.width / 2;
   const cy = rect.top + rect.height / 2;
 
   const minDim = Math.min(window.innerWidth, window.innerHeight);
-
-  // ✅ SAFE radius so items are ALWAYS clickable
   const radius = Math.min(minDim * 0.35, 340);
 
   const layout = {
@@ -52,7 +50,7 @@ function positionMenu() {
   });
 }
 
-/* ✅ SUPER‑NOVA TRAILS — DOM‑AWARE */
+/* ✅ SUPER‑NOVA TRAILS — FIXED TERMINATION */
 function drawArcs() {
   const a = logo.getBoundingClientRect();
   const x1 = a.left + a.width / 2;
@@ -60,13 +58,22 @@ function drawArcs() {
 
   menuItems.forEach(btn => {
     const b = btn.getBoundingClientRect();
-    const x2 = b.left + b.width / 2;
-    const y2 = b.top + b.height / 2;
 
+    let x2 = b.left + b.width / 2;
+    let y2 = b.top + b.height / 2;
+
+    /* 🔧 PULL BACK ENDPOINT SO ARC DOES NOT OVERLAP TEXT */
     const dx = x2 - x1;
     const dy = y2 - y1;
+    const len = Math.hypot(dx, dy) || 1;
 
-    // asymmetric control points = energy curve
+    // How far before the label the arc should stop
+    const stopOffset = 42; // tuned for your font size
+
+    x2 -= (dx / len) * stopOffset;
+    y2 -= (dy / len) * stopOffset;
+
+    /* Asymmetric control points = organic energy */
     const c1x = x1 + dx * 0.25 - dy * 0.35;
     const c1y = y1 + dy * 0.25 + dx * 0.35;
     const c2x = x1 + dx * 0.75 + dy * 0.25;
@@ -82,7 +89,7 @@ function drawArcs() {
   });
 }
 
-/* Content */
+/* Content (unchanged) */
 menuItems.forEach(btn => {
   btn.addEventListener("click", e => {
     e.stopPropagation();
