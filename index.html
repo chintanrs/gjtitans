@@ -5,81 +5,58 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>GJ Titans | Official Website</title>
 
-  <link rel="icon" href="assets/images/logo.png" type="image/png" />
-  <link rel="apple-touch-icon" href="assets/images/logo.png" />
-
-  <link rel="stylesheet" href="assets/css/home-single.css" />
+  <link rel="stylesheet" href="assets/css/home-single.css">
 </head>
 
 <body>
-  <section class="scene" id="scene">
 
-    <div class="scene-bg" aria-hidden="true"></div>
+<section class="scene" id="scene">
+  <div class="scene-bg"></div>
 
-    <div class="scene-hint" aria-hidden="true">CLICK LOGO</div>
+  <div class="scene-hint">CLICK LOGO</div>
 
-    <!-- FULLSCREEN SVG overlay for arcs -->
-    <svg class="energy-arcs" id="energyArcs" aria-hidden="true">
-      <defs>
-        <!-- Glow -->
-        <filter id="energyGlow">
-          <feGaussianBlur stdDeviation="6" result="blur"></feGaussianBlur>
-          <feMerge>
-            <feMergeNode in="blur"></feMergeNode>
-            <feMergeNode in="SourceGraphic"></feMergeNode>
-          </feMerge>
-        </filter>
+  <!-- SVG arcs (BEHIND logo) -->
+  <svg class="energy-arcs" id="energyArcs">
+    <defs>
+      <linearGradient id="grad-squad" gradientUnits="userSpaceOnUse"></linearGradient>
+      <linearGradient id="grad-fixtures" gradientUnits="userSpaceOnUse"></linearGradient>
+      <linearGradient id="grad-gallery" gradientUnits="userSpaceOnUse"></linearGradient>
+    </defs>
 
-        <!-- Per-arc gradients (updated by JS for taper) -->
-        <linearGradient id="grad-squad" gradientUnits="userSpaceOnUse"></linearGradient>
-        <linearGradient id="grad-fixtures" gradientUnits="userSpaceOnUse"></linearGradient>
-        <linearGradient id="grad-gallery" gradientUnits="userSpaceOnUse"></linearGradient>
-      </defs>
+    <path id="arc-squad"/>
+    <path id="arc-fixtures"/>
+    <path id="arc-gallery"/>
 
-      <path id="arc-squad"></path>
-      <path id="arc-fixtures"></path>
-      <path id="arc-gallery"></path>
+    <circle id="dot-squad" class="arc-dot"/>
+    <circle id="dot-fixtures" class="arc-dot"/>
+    <circle id="dot-gallery" class="arc-dot"/>
+  </svg>
 
-      <circle id="dot-squad" class="arc-dot" r="4"></circle>
-      <circle id="dot-fixtures" class="arc-dot" r="4"></circle>
-      <circle id="dot-gallery" class="arc-dot" r="4"></circle>
-    </svg>
+  <!-- LOGO -->
+  <button class="logo-core" id="logoCore">
+    <img src="assets/images/logo.png" alt="GJ Titans Logo">
+  </button>
 
-    <!-- Logo -->
-    <button class="logo-core" id="logoCore" type="button" aria-label="Open menu">
-      <img src="assets/images/logo.png" alt="GJ Titans logo" />
+  <!-- MENU -->
+  <div class="radial-menu">
+    <button class="menu-item" data-key="squad">
+      <span class="mi-icon">🪖</span>
+      <span class="mi-text">SQUAD</span>
     </button>
 
-    <!-- Menu -->
-    <div class="radial-menu" id="radialMenu" aria-label="Main menu">
-      <button class="menu-item" data-key="squad" type="button">
-        <span class="mi-icon">🪖</span>
-        <span class="mi-text">SQUAD</span>
-      </button>
+    <button class="menu-item" data-key="fixtures">
+      <span class="mi-icon">📅</span>
+      <span class="mi-text">FIXTURES</span>
+    </button>
 
-      <button class="menu-item" data-key="fixtures" type="button">
-        <span class="mi-icon">📅</span>
-        <span class="mi-text">FIXTURES</span>
-      </button>
+    <button class="menu-item" data-key="gallery">
+      <span class="mi-icon">🖼️</span>
+      <span class="mi-text">GALLERY</span>
+    </button>
+  </div>
 
-      <button class="menu-item" data-key="gallery" type="button">
-        <span class="mi-icon">🖼️</span>
-        <span class="mi-text">GALLERY</span>
-      </button>
-    </div>
+</section>
 
-    <!-- Overlay content -->
-    <div class="content-layer" id="contentLayer" aria-hidden="true">
-      <button class="content-close" id="contentClose" type="button" aria-label="Close overlay">✕</button>
-      <div class="content-inner" id="contentInner"></div>
-    </div>
-
-    <!-- Particles -->
-    <canvas class="particles" id="particles" aria-hidden="true"></canvas>
-
-  </section>
-
-  <script src="assets/js/home-single.js"></script>
+<script src="assets/js/home-single.js"></script>
 </body>
 </html>
-``
