@@ -15,17 +15,11 @@
 
   <div class="scene-bg"></div>
 
-  <!-- Subtle hint -->
   <div class="scene-hint">CLICK LOGO</div>
 
-  <!-- ✅ FULLSCREEN SVG (same coordinate space as DOM) -->
+  <!-- ✅ FULLSCREEN SVG -->
   <svg class="energy-arcs" id="energyArcs">
     <defs>
-      <linearGradient id="energyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="#ffd27d"/>
-        <stop offset="100%" stop-color="#f5a623"/>
-      </linearGradient>
-
       <filter id="energyGlow">
         <feGaussianBlur stdDeviation="6" result="blur"/>
         <feMerge>
@@ -42,29 +36,17 @@
 
   <!-- Logo -->
   <button class="logo-core" id="logoCore">
-    <img src="assets/images/logo.png" alt="GJ Titans Logo" />
+    <img src="assets/images/logo.png" alt="GJ Titans"/>
   </button>
 
   <!-- Menu -->
   <div class="radial-menu">
-    <button class="menu-item squad" data-target="squad">
-      🪖
-      <span>SQUAD</span>
-    </button>
-
-    <button class="menu-item fixtures" data-target="fixtures">
-      📅
-      <span>FIXTURES</span>
-    </button>
-
-    <button class="menu-item gallery" data-target="gallery">
-      🖼️
-      <span>GALLERY</span>
-    </button>
+    <button class="menu-item" data-key="squad">🪖<span>SQUAD</span></button>
+    <button class="menu-item" data-key="fixtures">📅<span>FIXTURES</span></button>
+    <button class="menu-item" data-key="gallery">🖼️<span>GALLERY</span></button>
   </div>
 
   <div class="content-layer" id="contentLayer"></div>
-
   <canvas id="particles"></canvas>
 
 </section>
