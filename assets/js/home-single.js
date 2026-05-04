@@ -2,12 +2,23 @@ const scene = document.getElementById("scene");
 const logo = document.getElementById("logoCore");
 const items = [...document.querySelectorAll(".menu-item")];
 
-// Toggle visibility
+// Angles define the layout around the logo (tight, centered group)
+const layoutDeg = {
+  squad:   -90,  // top
+  gallery: 180,  // left
+  fixtures: 35   // bottom-right
+};
+
+// Toggle menu
 logo.addEventListener("click", (e) => {
   e.stopPropagation();
   scene.classList.toggle("is-open");
+
   if (scene.classList.contains("is-open")) {
-    positionItems();
+    // Wait for CSS to apply open-state sizing before measuring
+    requestAnimationFrame(() => {
+      positionItemsTight();
+    });
   }
 });
 
@@ -16,35 +27,45 @@ scene.addEventListener("click", () => {
   scene.classList.remove("is-open");
 });
 
-// Prevent clicks on items from closing everything
-items.forEach(item => {
-  item.addEventListener("click", (e) => {
+// Prevent option clicks from closing
+items.forEach(btn => {
+  btn.addEventListener("click", (e) => {
     e.stopPropagation();
-    console.log(`${item.dataset.key} clicked`);
+    console.log(`${btn.dataset.key} clicked`);
   });
 });
 
-function positionItems() {
-  const rect = logo.getBoundingClientRect();
+function positionItemsTight() {
+  const logoRect = logo.getBoundingClientRect();
+  const cx = logoRect.left + logoRect.width / 2;
+  const cy = logoRect.top + logoRect.height / 2;
 
-  // Center of logo
-  const cx = rect.left + rect.width / 2;
-  const cy = rect.top + rect.height / 2;
+  // IMPORTANT:
+  // Many logos have transparent padding; using width/2 is too conservative.
+  // Use a smaller "visual radius" factor, then collision-check and expand only if needed.
+  const visualLogoRadius = logoRect.width * 0.40; // tighter than 0.50
+  const baseGap = 22; // small gap from logo edge (tight cluster)
 
-  /* ✅ KEY FIX
-     Distance from logo = logo radius + small padding */
-  const gapFromLogo = 36;              // ← adjust if needed (32–44 is perfect range)
-  const radius = rect.width / 2 + gapFromLogo;
+  // Start tight:
+  let radius = visualLogoRadius + baseGap;
 
-  // Angles keep layout balanced and centered
-  const layout = {
-    squad:   -90,   // top
-    gallery: 180,   // left
-    fixtures: 35    // bottom-right
-  };
+  // Place items, then check overlap; expand radius minimally until no overlap.
+  // Max 10 iterations prevents infinite loops.
+  for (let step = 0; step < 10; step++) {
+    placeAtRadius(cx, cy, radius);
 
+    if (!anyOverlapsLogo(logoRect, baseGap)) {
+      break; // perfect: tight and no overlap
+    }
+    radius += 12; // expand slightly and try again
+  }
+}
+
+function placeAtRadius(cx, cy, radius) {
   items.forEach(item => {
-    const angle = layout[item.dataset.key] * Math.PI / 180;
+    const key = item.dataset.key;
+    const angle = (layoutDeg[key] * Math.PI) / 180;
+
     const x = cx + Math.cos(angle) * radius;
     const y = cy + Math.sin(angle) * radius;
 
@@ -53,10 +74,24 @@ function positionItems() {
   });
 }
 
-// Keep alignment stable on resize
+// Checks whether any menu item overlaps the logo bounding box
+function anyOverlapsLogo(logoRect, padding) {
+  // Inflate the logo rect slightly so the gap feels clean
+  const L = logoRect.left - padding;
+  const T = logoRect.top - padding;
+  const R = logoRect.right + padding;
+  const B = logoRect.bottom + padding;
+
+  return items.some(item => {
+    const r = item.getBoundingClientRect();
+    return !(r.right < L || r.left > R || r.bottom < T || r.top > B);
+  });
+}
+
+// Keep it stable on resize
 window.addEventListener("resize", () => {
   if (scene.classList.contains("is-open")) {
-    positionItems();
+    requestAnimationFrame(() => positionItemsTight());
   }
 });
 ``
