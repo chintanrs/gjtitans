@@ -39,6 +39,7 @@ html, body {
   background: none;
   border: none;
   cursor: pointer;
+  z-index: 3;
 }
 
 .logo-core img {
@@ -120,4 +121,3 @@ html, body {
   cursor: pointer;
   float: right;
 }
-``
