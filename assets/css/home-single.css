@@ -1,7 +1,6 @@
 :root {
   --bg1:#071a2f;
   --bg2:#0c2a44;
-  --gold:#f5a623;
 }
 
 * { box-sizing: border-box; }
@@ -40,12 +39,10 @@ html, body {
   background: none;
   border: none;
   cursor: pointer;
-  z-index: 3;
 }
 
 .logo-core img {
   width: min(520px, 75vw);
-  filter: drop-shadow(0 0 90px rgba(245,166,35,.7));
   animation: breathe 6s ease-in-out infinite;
 }
 
@@ -59,7 +56,6 @@ html, body {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  z-index: 4;
 }
 
 .menu-item {
@@ -77,8 +73,6 @@ html, body {
   flex-direction: column;
   align-items: center;
   gap: 6px;
-  font-weight: 700;
-  letter-spacing: .2em;
   transition: .35s ease;
 }
 
@@ -105,7 +99,6 @@ html, body {
   opacity: 0;
   pointer-events: none;
   transition: .25s ease;
-  z-index: 10;
 }
 
 .overlay.active {
@@ -127,3 +120,4 @@ html, body {
   cursor: pointer;
   float: right;
 }
+``
