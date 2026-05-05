@@ -52,10 +52,10 @@ async function openOverlay(type) {
   }
 
   if (type === "fixtures") {
-    const res = await fetch("data/fixtures.json");
+    const res = await fetch("./data/fixtures.json");
     const data = await res.json();
-    let html = "<h1>Fixtures</h1>";
 
+    let html = "<h1>Fixtures</h1>";
     data.tournaments.forEach(t => {
       html += `<h2>${t.name} ${t.season}</h2>`;
       t.fixtures.forEach(f => {
@@ -67,12 +67,11 @@ async function openOverlay(type) {
           </p>`;
       });
     });
-
     overlayBody.innerHTML = html;
   }
 
   if (type === "squad") {
-    const res = await fetch("data/squad.json");
+    const res = await fetch("./data/squad.json");
     const data = await res.json();
     overlayBody.innerHTML =
       "<h1>Squad</h1>" +
