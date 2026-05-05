@@ -37,7 +37,7 @@ function positionRadialMenu() {
      - Desktop: capped at 135px (tighter, balanced)
      - Mobile: still scales down automatically */
   const radius = Math.min(
-    135,                // ✅ tighter than 160
+    170,                // ✅ tighter than 160
     minViewport * 0.32
   );
 
