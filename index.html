@@ -5,48 +5,52 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>GJ Titans | Official Website</title>
 
-  <link rel="icon" href="images/logo.png" type="image/png" />
-  <link rel="apple-touch-icon" href="images/logo.png" />
-
+  <!-- ✅ CSS -->
   <link rel="stylesheet" href="css/home-single.css" />
 </head>
 
 <body>
   <section class="scene" id="scene">
+
     <div class="scene-hint">CLICK LOGO</div>
 
-    <!-- Center Logo -->
-    <button class="logo-core" id="logoCore" type="button" aria-label="Open menu">
-      <img src="images/logo.png" alt="GJ Titans Logo" />
+    <!-- ✅ LOGO -->
+    <button class="logo-core" id="logoCore" type="button">
+      <img src="images/logo.png" alt="GJ Titans Logo">
     </button>
 
-    <!-- Radial Menu (always around logo) -->
-    <div class="radial-menu" aria-label="Primary navigation">
-      <button class="menu-item" data-key="squad" type="button" aria-label="Squad">
-        <img src="images/squad.png" alt="" aria-hidden="true" />
+    <!-- ✅ RADIAL MENU -->
+    <div class="radial-menu">
+
+      <button class="menu-item" data-key="squad" type="button">
+        <img src="images/squad.png" alt="Squad">
         <span>SQUAD</span>
       </button>
 
-      <button class="menu-item" data-key="gallery" type="button" aria-label="Gallery">
-        <img src="images/gallery.png" alt="" aria-hidden="true" />
+      <button class="menu-item" data-key="gallery" type="button">
+        <img src="images/gallery.png" alt="Gallery">
         <span>GALLERY</span>
       </button>
 
-      <button class="menu-item" data-key="fixtures" type="button" aria-label="Fixtures">
-        <img src="images/fixtures.png" alt="" aria-hidden="true" />
+      <button class="menu-item" data-key="fixtures" type="button">
+        <img src="images/fixtures.png" alt="Fixtures">
         <span>FIXTURES</span>
       </button>
+
     </div>
 
-    <!-- Overlay (single-page, content on top of logo) -->
-    <div class="overlay" id="overlay" aria-hidden="true">
-      <div class="overlay-content" role="dialog" aria-modal="true" aria-label="Content">
-        <button class="close-btn" id="closeOverlay" type="button" aria-label="Close overlay">✕</button>
+    <!-- ✅ CONTENT OVERLAY -->
+    <div class="overlay" id="overlay">
+      <div class="overlay-content">
+        <button class="close-btn" id="closeOverlay" type="button">✕</button>
         <div id="overlayBody"></div>
       </div>
     </div>
+
   </section>
 
+  <!-- ✅ JS -->
   <script src="js/home-single.js"></script>
 </body>
 </html>
+``
