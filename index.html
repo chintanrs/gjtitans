@@ -2,37 +2,42 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GJ Titans</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GJ Titans | Official Website</title>
 
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="assets/css/home-single.css" />
 </head>
-<body>
 
-  <div class="hero">
+<body>
+  <section class="scene" id="scene">
+
+    <div class="scene-hint">CLICK LOGO</div>
 
     <!-- LOGO -->
-    <img src="images/logo.png" class="logo" alt="GJ Titans Logo">
+    <button class="logo-core" id="logoCore" type="button">
+      <img src="assets/images/logo.png" alt="GJ Titans Logo" />
+    </button>
 
-    <!-- MENU ITEMS -->
-    <div class="menu-item squad">
-      <img src="images/squad.png" alt="Squad">
-      <span>SQUAD</span>
+    <!-- RADIAL MENU -->
+    <div class="radial-menu">
+      <button class="menu-item" data-key="squad">
+        <img src="assets/images/squad.png" alt="Squad" />
+        <span>SQUAD</span>
+      </button>
+
+      <button class="menu-item" data-key="gallery">
+        <img src="assets/images/gallery.png" alt="Gallery" />
+        <span>GALLERY</span>
+      </button>
+
+      <button class="menu-item" data-key="fixtures">
+        <img src="assets/images/fixtures.png" alt="Fixtures" />
+        <span>FIXTURES</span>
+      </button>
     </div>
 
-    <div class="menu-item gallery">
-      <img src="images/gallery.png" alt="Gallery">
-      <span>GALLERY</span>
-    </div>
+  </section>
 
-    <div class="menu-item fixtures">
-      <img src="images/fixtures.png" alt="Fixtures">
-      <span>FIXTURES</span>
-    </div>
-
-  </div>
-
-  <script src="js/main.js"></script>
+  <script src="assets/js/home-single.js"></script>
 </body>
 </html>
-``
