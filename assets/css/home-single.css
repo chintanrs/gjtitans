@@ -32,11 +32,11 @@ html,body{
 /* Hint */
 .scene-hint{
   position:absolute;
-  top:20px;
+  top:40px;
   width:100%;
   text-align:center;
-  font-size:15px;
-  letter-spacing:1px;
+  font-size:20px;
+  letter-spacing:0px;
   opacity:.45;
   pointer-events:none;
 }
