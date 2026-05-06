@@ -120,26 +120,35 @@ async function openOverlay(type){
 }
 
 /* ===== About Us ===== */
-function renderAbout(){
-  overlayBody.innerHTML = `
-    <div class="fade-in">
-      <div class="overlay-header"><h1 class="overlay-title">Our Roots</h1></div>
+async function renderAbout(){
+  try {
+    const data = await fetch("assets/data/about.json", { cache: "no-store" })
+      .then(r => r.json());
 
-      <p class="subtext">
-        We’re a group of friends in the GTA — born and raised in India — and cricket has always been part of our heritage and our DNA.
-      </p>
-      <p class="subtext">
-        No big speeches. No corporate mission statements. Just the same love for the game we grew up with — the sound of the bat, the late-night matches, and the bond that comes from playing together.
-      </p>
-      <p class="subtext">
-        We play for the sport and the community it creates — for the brotherhood, the competition, and the simple joy of turning up and respecting the game.
-      </p>
+    overlayBody.innerHTML = `
+      <div class="fade-in about-wrap">
+        <h1 class="about-h1">${escapeHtml(data.header)}</h1>
 
-      <div class="detail-card" style="margin-top:14px;">
-        <div class="detail-label">Imagery</div>
-        <div class="detail-value">Add a high-quality team photo or a “Toronto meets India” themed graphic here.</div>
+        ${data.sections.map(s => `
+          <p class="about-p">${escapeHtml(s.text)}</p>
+        `).join("")}
+
+        <h2 class="about-h2">${escapeHtml(data.image.title)}</h2>
+
+        <div class="about-image-slot">
+          <strong>Photo Slot</strong><br />
+          ${escapeHtml(data.image.description)}
+        </div>
       </div>
-    </div>`;
+    `;
+  } catch (err) {
+    overlayBody.innerHTML = `
+      <div class="fade-in">
+        <h1 class="overlay-title">About Us</h1>
+        <p class="subtext">Unable to load content.</p>
+      </div>
+    `;
+  }
 }
 
 /* ===== Fixtures Step 1 ===== */
