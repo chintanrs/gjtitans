@@ -47,7 +47,7 @@ function positionMenu(){
   const cx = r.left + r.width / 2;
   const cy = r.top + r.height / 2;
 
-  const radius = Math.min(180, Math.min(innerWidth, innerHeight) * 0.32);
+  const radius = Math.min(210, Math.min(innerWidth, innerHeight) * 0.32);
 
   menuItems.forEach(item => {
     const a = angles[item.dataset.key] * Math.PI / 180;
