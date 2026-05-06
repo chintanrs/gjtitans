@@ -254,3 +254,11 @@ window.addEventListener("resize", () => {
     requestAnimationFrame(positionMenu);
   }
 });
+
+// ✅ Recalculate positions on rotation / resize
+window.addEventListener("resize", () => {
+  if (scene.classList.contains("is-open")) {
+    requestAnimationFrame(positionMenu);
+  }
+});
+
