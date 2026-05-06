@@ -32,6 +32,20 @@
           "teamA": "GJ Titans",
           "teamB": "CVR",
           "venue": "CRED / Sand Pitch"
+        },
+        {
+          "date": "2026-06-12",
+          "time": "5:30 PM",
+          "teamA": "GJ Titans",
+          "teamB": "Brampton Sharks",
+          "venue": "CRED / Sand Pitch"
+        },
+        {
+          "date": "2026-06-26",
+          "time": "5:30 PM",
+          "teamA": "GJ Titans",
+          "teamB": "Sparten SSC",
+          "venue": "CRED / Sand Pitch"
         }
       ]
     },
