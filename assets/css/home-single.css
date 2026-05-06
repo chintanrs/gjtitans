@@ -111,8 +111,16 @@ html,body{
   filter: drop-shadow(0 0 12px rgba(255,255,255,0.20));
 }
 
+/* ✅ Make SVG icon match PNG icons */
+.menu-item .menu-svg{
+  width:40px;
+  height:40px;
+  color:#fff;
+  filter: drop-shadow(0 0 12px rgba(255,255,255,0.20));
+}
+
 .menu-item span{
-  font-size:1.1rem; /* you asked how to increase: set here */
+  font-size:1.1rem;
   font-weight:700;
   white-space:nowrap;
 }
@@ -162,13 +170,13 @@ html,body{
 }
 .close-btn:hover{ opacity:1; }
 
-/* Common */
 .fade-in{ animation: fadeIn .18s ease-out; }
 @keyframes fadeIn{
   from{ opacity:0; transform: translateY(6px); }
   to{ opacity:1; transform: translateY(0); }
 }
 
+/* Common overlay header */
 .overlay-header{
   display:flex;
   align-items:center;
@@ -181,229 +189,57 @@ html,body{
   font-weight: 800;
   margin:0;
 }
-.back-btn{
-  border: 1px solid rgba(255,255,255,0.18);
-  background: rgba(255,255,255,0.06);
-  color: #fff;
-  border-radius: 999px;
-  padding: 8px 12px;
-  cursor:pointer;
-  font-weight: 700;
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-}
-.back-btn:hover{
-  border-color: rgba(245,166,35,0.35);
-  background: rgba(245,166,35,0.10);
-}
 .subtext{
   color: var(--muted);
   margin: 0 0 12px;
 }
 
-/* Card grid */
-.card-grid{
-  display:grid;
-  grid-template-columns: 1fr;
-  gap: 12px;
-  margin-top: 12px;
-}
-@media (min-width: 720px){
-  .card-grid{ grid-template-columns: 1fr 1fr; }
+/* About page styling */
+.about-wrap{
+  padding: 4px 2px 18px;
 }
 
-.card{
-  border-radius: var(--radius);
-  border: 1px solid var(--cardBorder);
-  background: var(--cardBg);
-  box-shadow: var(--shadow);
-  padding: 14px 14px;
-  cursor:pointer;
-  transition: transform .2s ease, border-color .2s ease;
-}
-.card:hover{
-  transform: translateY(-2px);
-  border-color: rgba(245,166,35,0.25);
-}
-
-/* ===== FIXTURES (unchanged styling) ===== */
-.card-top{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap: 10px;
-}
-.card-left{
-  display:flex;
-  align-items:center;
-  gap: 10px;
-}
-.card-icon{
-  width: 34px;
-  height: 34px;
-  flex: 0 0 auto;
-  filter: drop-shadow(0 0 10px rgba(245,166,35,0.18));
-}
-.card-title{
-  font-size: 1.1rem;
-  font-weight: 800;
-  margin:0;
-}
-.card-meta{
-  color: var(--muted);
-  font-size: .92rem;
-  margin-top: 6px;
-}
-.badge{
-  padding: 6px 10px;
-  border-radius: 999px;
-  background: rgba(245,166,35,0.12);
-  border: 1px solid rgba(245,166,35,0.25);
-  color: #fff;
-  font-weight: 800;
-  font-size: .85rem;
-  white-space:nowrap;
-}
-.match-time{
+.about-h1{
+  font-size: 2.2rem;
   font-weight: 900;
-  letter-spacing: .02em;
-}
-.detail-card{
-  border-radius: var(--radius);
-  border: 1px solid var(--cardBorder);
-  background: var(--cardBg);
-  box-shadow: var(--shadow);
-  padding: 16px;
-}
-.detail-row{ margin: 10px 0; }
-.detail-label{ color: var(--muted); font-size: .9rem; margin-bottom: 4px; }
-.detail-value{ font-size: 1.05rem; font-weight: 750; }
-
-/* ===== NEW: SQUAD REDESIGN ===== */
-
-.squad-search{
-  display:flex;
-  gap:10px;
-  align-items:center;
-  margin: 6px 0 14px;
+  margin: 0 0 10px;
 }
 
-.squad-search input{
-  width:100%;
-  padding: 12px 14px;
-  border-radius: 999px;
-  border: 1px solid rgba(255,255,255,0.16);
-  background: rgba(255,255,255,0.06);
-  color:#fff;
-  outline:none;
+.about-h2{
+  font-size: 1.35rem;
+  font-weight: 900;
+  margin: 18px 0 10px;
+  color: #fff;
+}
+
+.about-p{
+  margin: 0 0 12px;
+  color: var(--muted);
+  line-height: 1.55;
   font-size: 1rem;
 }
-.squad-search input::placeholder{
-  color: rgba(255,255,255,0.55);
-}
 
-.squad-search .clear-btn{
-  border-radius: 999px;
-  padding: 10px 12px;
-  border: 1px solid rgba(255,255,255,0.18);
-  background: rgba(255,255,255,0.06);
-  color:#fff;
-  cursor:pointer;
-  font-weight:700;
-  white-space:nowrap;
-}
-.squad-search .clear-btn:hover{
-  border-color: rgba(245,166,35,0.35);
-  background: rgba(245,166,35,0.10);
-}
-
-.player-card{
-  text-align:center;
-  padding: 16px 14px;
-}
-
-.avatar{
-  width: 92px;
-  height: 92px;
-  border-radius: 999px;
-  margin: 0 auto 12px;
-  border: 1px solid rgba(255,255,255,0.16);
-  background: rgba(255,255,255,0.06);
-  display:grid;
-  place-items:center;
-  overflow:hidden;
-  box-shadow: 0 14px 28px rgba(0,0,0,0.35);
-}
-
-.avatar img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-
-.avatar .initials{
-  font-weight:900;
-  font-size: 1.4rem;
-  letter-spacing: 1px;
-  color:#fff;
-}
-
-.player-name{
-  font-size: 1.15rem;
-  font-weight: 900;
-  margin: 0;
-}
-
-.player-role{
-  margin-top: 6px;
-  color: var(--muted);
-  text-transform: capitalize;
-  font-size: .95rem;
-}
-
-/* Detail view for squad */
-.player-detail{
-  margin-top: 10px;
-}
-
-.detail-section{
+/* Image placeholder block */
+.about-image-slot{
   margin-top: 14px;
-  padding-top: 14px;
-  border-top: 1px solid rgba(255,255,255,0.10);
+  border-radius: 16px;
+  border: 2px dashed rgba(255,255,255,0.22);
+  background: rgba(255,255,255,0.04);
+  padding: 22px;
+  text-align: center;
+  color: rgba(255,255,255,0.70);
 }
 
-.detail-section h3{
-  margin: 0 0 8px;
-  font-size: 1.05rem;
-  font-weight: 900;
+.about-image-slot strong{
+  color: #fff;
 }
 
-.detail-section p{
-  margin: 0;
-  color: var(--muted);
-  line-height: 1.45;
-}
-
-/* Empty state */
-.empty-state{
-  margin-top: 18px;
-  padding: 18px;
-  border-radius: var(--radius);
-  border: 1px solid rgba(255,255,255,0.12);
-  background: rgba(255,255,255,0.05);
-  text-align:center;
-}
-
-.empty-state .msg{
-  color: var(--muted);
-  margin-bottom: 10px;
-}
-
+/* Mobile tightening */
 @media (max-width: 480px){
   .logo-core img{ width: min(430px, 86vw); }
   .menu-item img{ width:40px; height:40px; }
+  .menu-item .menu-svg{ width:40px; height:40px; }
   .menu-item span{ font-size: 1rem; }
   .overlay-title{ font-size: 1.6rem; }
-  .avatar{ width: 84px; height: 84px; }
+  .about-h1{ font-size: 1.8rem; }
 }
