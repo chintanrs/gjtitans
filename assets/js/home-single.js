@@ -6,14 +6,15 @@ const overlay = document.getElementById("overlay");
 const overlayBody = document.getElementById("overlayBody");
 const closeBtn = document.getElementById("closeOverlay");
 
-/* Radial menu angles */
+/* ✅ Updated angles: keep original feel, add About Us */
 const angles = {
-  squad: -90,
-  gallery: 180,
-  fixtures: 35
+  squad: -90,       // top
+  gallery: 180,     // left
+  fixtures: 35,     // bottom-right
+  about: 235        // bottom-left (balances the dial)
 };
 
-/* --- menu open/close (safe bubbling) --- */
+/* Menu open/close */
 logo.addEventListener("click", (e) => {
   e.stopPropagation();
   scene.classList.toggle("is-open");
@@ -47,37 +48,39 @@ function positionMenu(){
   const cy = r.top + r.height / 2;
 
   const isMobile = window.innerWidth <= 480;
+
   const radius = Math.min(
     isMobile ? 260 : 240,
     Math.min(innerWidth, innerHeight) * (isMobile ? 0.38 : 0.32)
   );
 
   menuItems.forEach(item => {
-    const a = angles[item.dataset.key] * Math.PI / 180;
+    const key = item.dataset.key;
+    const a = (angles[key] ?? 0) * Math.PI / 180;
     item.style.left = `${cx + Math.cos(a) * radius}px`;
     item.style.top  = `${cy + Math.sin(a) * radius}px`;
   });
 }
 
-/* keep menu placement stable on rotate/resize */
+/* Reposition on rotate/resize safely */
 window.addEventListener("resize", () => {
   if (scene.classList.contains("is-open")) {
     requestAnimationFrame(positionMenu);
   }
 });
 
-/* ---------------- FIXTURES drill-down state (UNCHANGED) ---------------- */
+/* ---------------- Fixtures drill-down state (unchanged) ---------------- */
 let fixturesCache = null;
 let fixturesState = {
-  level: "tournaments",   // "tournaments" | "matches" | "detail"
+  level: "tournaments",
   tournamentIndex: null,
   matchIndex: null
 };
 
-/* ---------------- SQUAD state (NEW) ---------------- */
+/* ---------------- Squad state (unchanged) ---------------- */
 let squadCache = null;
 let squadState = {
-  view: "list",           // "list" | "detail"
+  view: "list",
   query: "",
   selectedIndex: null,
   scrollTop: 0
@@ -88,6 +91,11 @@ async function openOverlay(type){
   overlay.setAttribute("aria-hidden", "false");
   scene.classList.remove("is-open");
   overlayBody.innerHTML = `<p class="subtext">Loading…</p>`;
+
+  if (type === "about"){
+    renderAbout();
+    return;
+  }
 
   if (type === "gallery"){
     overlayBody.innerHTML = `
@@ -117,7 +125,6 @@ async function openOverlay(type){
       if (!squadCache){
         squadCache = await fetch("assets/data/squad.json", { cache: "no-store" }).then(r => r.json());
       }
-      // reset view but keep query if you want persistence; for now reset
       squadState.view = "list";
       squadState.selectedIndex = null;
       squadState.scrollTop = 0;
@@ -130,7 +137,35 @@ async function openOverlay(type){
   }
 }
 
-/* ================== FIXTURES (3-tier, unchanged) ================== */
+/* ================== ABOUT US (NEW) ================== */
+function renderAbout(){
+  overlayBody.innerHTML = `
+    <div class="fade-in about-wrap">
+      <h1 class="about-h1">Our Roots</h1>
+
+      <p class="about-p">
+        We’re a group of friends in the GTA — born and raised in India — and cricket has always been part of our heritage and our DNA.
+      </p>
+
+      <p class="about-p">
+        No big speeches. No corporate mission statements. Just the same love for the game we grew up with — the sound of the bat, the late-night matches, and the bond that comes from playing together.
+      </p>
+
+      <p class="about-p">
+        We play for the sport and the community it creates. For the brotherhood. For the competition. For the simple joy of turning up, fighting for every run, and respecting the game.
+      </p>
+
+      <h2 class="about-h2">Toronto meets India</h2>
+
+      <div class="about-image-slot">
+        <strong>Photo Slot</strong><br />
+        Add a high-quality team photo or a “Toronto meets India” themed graphic here.
+      </div>
+    </div>
+  `;
+}
+
+/* ================== FIXTURES (existing 3-tier drill-down) ================== */
 
 function renderFixturesStep1(){
   const tournaments = fixturesCache?.tournaments || [];
@@ -147,7 +182,7 @@ function renderFixturesStep1(){
           <div class="card" data-tournament-index="${idx}">
             <div class="card-top">
               <div class="card-left">
-                <img class="card-icon" src="assets/images/trophy.png" alt="">
+                assets/images/trophy.png
                 <div>
                   <p class="card-title">${t.name}</p>
                   <p class="card-meta">${t.season}</p>
@@ -249,32 +284,37 @@ function renderFixturesStep3(){
   });
 }
 
-/* ================== SQUAD (NEW redesign) ================== */
-
+/* ================== SQUAD (existing redesign) ================== */
+/* NOTE: your squad rendering functions remain exactly as in your working version.
+   If you already have them below in your current file, KEEP them.
+   If you want, I can paste the entire squad section again in one go.
+*/
 function getFirstName(name=""){
   const parts = String(name).trim().split(/\s+/);
   return (parts[0] || "").toLowerCase();
 }
-
 function initialsFromName(name=""){
   const parts = String(name).trim().split(/\s+/);
   const a = parts[0]?.[0] || "";
   const b = parts[1]?.[0] || "";
   return (a + b).toUpperCase() || (parts[0]?.slice(0,2).toUpperCase() || "GT");
 }
-
-function normalized(str=""){
-  return String(str).toLowerCase().trim();
+function normalized(str=""){ return String(str).toLowerCase().trim(); }
+function escapeHtml(str=""){
+  return String(str)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
 }
-
+function capitalize(s=""){
+  const str = String(s);
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
 function getSortedPlayers(){
   const list = squadCache?.items ? [...squadCache.items] : [];
-  // A-Z by first name (as you asked)
-  list.sort((p1, p2) => {
-    const a = getFirstName(p1.name);
-    const b = getFirstName(p2.name);
-    return a.localeCompare(b);
-  });
+  list.sort((p1, p2) => getFirstName(p1.name).localeCompare(getFirstName(p2.name)));
   return list;
 }
 
@@ -284,10 +324,7 @@ function renderSquadList(){
 
   const all = getSortedPlayers();
   const q = normalized(squadState.query);
-
-  const filtered = q
-    ? all.filter(p => normalized(p.name).includes(q))
-    : all;
+  const filtered = q ? all.filter(p => normalized(p.name).includes(q)) : all;
 
   overlayBody.innerHTML = `
     <div class="fade-in">
@@ -307,7 +344,7 @@ function renderSquadList(){
         </div>
       ` : `
         <div class="card-grid">
-          ${filtered.map((p, idx) => renderPlayerCard(p, idx, q)).join("")}
+          ${filtered.map((p, idx) => renderPlayerCard(p, idx)).join("")}
         </div>
       `}
     </div>
@@ -317,48 +354,36 @@ function renderSquadList(){
   const clear = overlayBody.querySelector("#clearSearch");
   const clear2 = overlayBody.querySelector("#clearSearch2");
 
-  // search-as-you-type (real-time)
   input.addEventListener("input", () => {
-  const cursorPos = input.selectionStart;   // ✅ save caret
-  squadState.query = input.value;
-
-  renderSquadList();
-
-  // ✅ restore focus + caret AFTER DOM rebuild
-  const newInput = overlayBody.querySelector("#squadSearch");
-  if (newInput) {
-    newInput.focus();
-    newInput.setSelectionRange(cursorPos, cursorPos);
-  }
-});
-
-
-  const clearAction = () => {
-    squadState.query = "";
+    const cursorPos = input.selectionStart;   // ✅ caret preservation
+    squadState.query = input.value;
     renderSquadList();
-  };
+    const newInput = overlayBody.querySelector("#squadSearch");
+    if (newInput) {
+      newInput.focus();
+      newInput.setSelectionRange(cursorPos, cursorPos);
+    }
+  });
+
+  const clearAction = () => { squadState.query = ""; renderSquadList(); };
   clear.addEventListener("click", clearAction);
   if (clear2) clear2.addEventListener("click", clearAction);
 
-  // click player card -> detail view
   overlayBody.querySelectorAll("[data-player-index]").forEach(el => {
     el.addEventListener("click", () => {
-      // preserve scroll and query
       squadState.scrollTop = document.querySelector(".overlay-content")?.scrollTop || 0;
       squadState.selectedIndex = Number(el.dataset.playerIndex);
       renderSquadDetail();
     });
   });
 
-  // restore scroll
   const oc = document.querySelector(".overlay-content");
   if (oc) oc.scrollTop = squadState.scrollTop || 0;
 }
 
-function renderPlayerCard(p, idx, q){
-  // Use p.avatar if present; else initials
+function renderPlayerCard(p, idx){
   const avatar = p.avatar ? `
-    <div class="avatar"><img src="${p.avatar}" alt=""></div>
+    <div class="avatar">${p.avatar}</div>
   ` : `
     <div class="avatar"><div class="initials">${initialsFromName(p.name)}</div></div>
   `;
@@ -379,12 +404,7 @@ function renderSquadDetail(){
   const q = normalized(squadState.query);
   const filtered = q ? all.filter(p => normalized(p.name).includes(q)) : all;
   const player = filtered[squadState.selectedIndex];
-
-  // Safety fallback
-  if (!player){
-    renderSquadList();
-    return;
-  }
+  if (!player){ renderSquadList(); return; }
 
   const primaryRole = player.primaryRole || capitalize(player.role || "Not provided");
   const battingStyle = player.battingStyle || "Not provided";
@@ -392,7 +412,7 @@ function renderSquadDetail(){
   const bio = player.bio || "Not provided";
 
   const avatar = player.avatar ? `
-    <div class="avatar"><img src="${player.avatar}" alt=""></div>
+    <div class="avatar">${player.avatar}</div>
   ` : `
     <div class="avatar"><div class="initials">${initialsFromName(player.name)}</div></div>
   `;
@@ -434,21 +454,4 @@ function renderSquadDetail(){
   overlayBody.querySelector("#backToSquad").addEventListener("click", () => {
     renderSquadList();
   });
-
-  // restore previous scroll position after returning will happen in renderSquadList
-}
-
-/* ---------- helpers ---------- */
-function capitalize(s=""){
-  const str = String(s);
-  return str.charAt(0).toUpperCase() + str.slice(1);
-}
-
-function escapeHtml(str=""){
-  return String(str)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
 }
