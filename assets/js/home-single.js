@@ -319,9 +319,19 @@ function renderSquadList(){
 
   // search-as-you-type (real-time)
   input.addEventListener("input", () => {
-    squadState.query = input.value;
-    renderSquadList();
-  });
+  const cursorPos = input.selectionStart;   // ✅ save caret
+  squadState.query = input.value;
+
+  renderSquadList();
+
+  // ✅ restore focus + caret AFTER DOM rebuild
+  const newInput = overlayBody.querySelector("#squadSearch");
+  if (newInput) {
+    newInput.focus();
+    newInput.setSelectionRange(cursorPos, cursorPos);
+  }
+});
+
 
   const clearAction = () => {
     squadState.query = "";
