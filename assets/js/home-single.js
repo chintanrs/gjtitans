@@ -8,10 +8,10 @@ const closeBtn = document.getElementById("closeOverlay");
 
 /* ✅ Updated angles: keep original feel, add About Us */
 const angles = {
-  squad: -90,
-  gallery: 180,
-  fixtures: 35,
-  about: 235
+  squad: -45,
+  gallery: 45,
+  fixtures: 135,
+  about: 225
 };
 
 
