@@ -5,48 +5,48 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>GJ Titans | Official Website</title>
 
-  <!-- ✅ Correct paths (match your repo: /css, /images, /js, /data) -->
-  <link rel="stylesheet" href="./css/home-single.css" />
-  <link rel="icon" href="./images/logo.png" type="image/png" />
+  <!-- ✅ CORRECT PATH (assets/) -->
+  <link rel="stylesheet" href="assets/css/home-single.css">
 </head>
 
 <body>
-  <section class="scene" id="scene">
-    <div class="scene-hint">CLICK LOGO</div>
 
-    <!-- LOGO -->
-    <button class="logo-core" id="logoCore" type="button" aria-label="Open menu">
-      <img src="./images/logo.png" alt="GJ Titans Logo">
+<section class="scene" id="scene">
+  <div class="scene-hint">CLICK LOGO</div>
+
+  <!-- LOGO -->
+  <button class="logo-core" id="logoCore" type="button">
+    <img src="assets/images/logo.png" alt="GJ Titans Logo">
+  </button>
+
+  <!-- RADIAL MENU -->
+  <div class="radial-menu">
+    <button class="menu-item" data-key="squad">
+      <img src="assets/images/squad.png" alt="Squad">
+      <span>SQUAD</span>
     </button>
 
-    <!-- RADIAL MENU -->
-    <div class="radial-menu" aria-label="Primary navigation">
-      <button class="menu-item" data-key="squad" type="button" aria-label="Squad">
-        <img src="./images/squad.png" alt="">
-        <span>SQUAD</span>
-      </button>
+    <button class="menu-item" data-key="gallery">
+      <img src="assets/images/gallery.png" alt="Gallery">
+      <span>GALLERY</span>
+    </button>
 
-      <button class="menu-item" data-key="gallery" type="button" aria-label="Gallery">
-        <img src="./images/gallery.png" alt="">
-        <span>GALLERY</span>
-      </button>
+    <button class="menu-item" data-key="fixtures">
+      <img src="assets/images/fixtures.png" alt="Fixtures">
+      <span>FIXTURES</span>
+    </button>
+  </div>
 
-      <button class="menu-item" data-key="fixtures" type="button" aria-label="Fixtures">
-        <img src="./images/fixtures.png" alt="">
-        <span>FIXTURES</span>
-      </button>
+  <!-- OVERLAY -->
+  <div class="overlay" id="overlay">
+    <div class="overlay-content">
+      <button class="close-btn" id="closeOverlay">✕</button>
+      <div id="overlayBody"></div>
     </div>
+  </div>
+</section>
 
-    <!-- OVERLAY -->
-    <div class="overlay" id="overlay" aria-hidden="true">
-      <div class="overlay-content" role="dialog" aria-modal="true">
-        <button class="close-btn" id="closeOverlay" type="button" aria-label="Close">✕</button>
-        <div id="overlayBody"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ✅ Correct JS path -->
-  <script src="./js/home-single.js" defer></script>
+<!-- ✅ CORRECT JS PATH -->
+<script src="assets/js/home-single.js"></script>
 </body>
 </html>
