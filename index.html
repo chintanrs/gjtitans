@@ -5,39 +5,47 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>GJ Titans | Official Website</title>
 
-  
- <!-- ✅ Favicon using logo.png -->
-  <link rel="icon" type="image/png" href="assets/images/logo.png">
+  <!-- Favicon (logo.png) -->
+  <link rel="icon" href="assets/images/logo.png" type="image/png" />
+  <link rel="apple-touch-icon" href="assets/images/logo.png" />
 
-
+  <!-- Styles -->
   <link rel="stylesheet" href="assets/css/home-single.css" />
 </head>
 
 <body>
 <section class="scene" id="scene">
 
-  <div class="scene-hint">Tap the Badge to explore</div>
+  <div class="scene-hint">Tap the Badge to start</div>
 
   <!-- Center Logo -->
   <button class="logo-core" id="logoCore" type="button" aria-label="Open menu">
     <img src="assets/images/logo.png" alt="GJ Titans Logo" />
   </button>
 
-  <!-- Radial Menu -->
+  <!-- Radial Menu (now 4 items) -->
   <div class="radial-menu" aria-label="Primary navigation">
     <button class="menu-item" data-key="squad" type="button" aria-label="Squad">
       <img src="assets/images/squad.png" alt="" />
-      <span><b>Meet the Squad</b></span>
+      <span><b>Squad</b></span>
     </button>
 
     <button class="menu-item" data-key="gallery" type="button" aria-label="Gallery">
       <img src="assets/images/gallery.png" alt="" />
-      <span><b>Moments</b></span>
+      <span><b>Gallery</b></span>
     </button>
 
     <button class="menu-item" data-key="fixtures" type="button" aria-label="Fixtures">
       <img src="assets/images/fixtures.png" alt="" />
-      <span><b>Match Center</b></span>
+      <span><b>Fixtures</b></span>
+    </button>
+
+    <!-- ✅ NEW: ABOUT US -->
+    <button class="menu-item" data-key="about" type="button" aria-label="About Us">
+      <svg class="menu-svg" viewBox="0 0 24 24" aria-hidden="true">
+        <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 4.6a1.4 1.4 0 110 2.8 1.4 1.4 0 010-2.8zM13.2 18h-2.4v-8h2.4v8z"/>
+      </svg>
+      <span><b>About Us</b></span>
     </button>
   </div>
 
