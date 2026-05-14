@@ -1,10 +1,16 @@
+/* Optional Matchday font (safe fallback if font not present) */
+@font-face{
+  font-family:"Matchday";
+  src:url("../fonts/Matchday.ttf") format("truetype");
+  font-weight:normal;
+  font-style:normal;
+  font-display:swap;
+}
+
 :root{
-  /* ===============================
-     GJ LIONS BRAND PALETTE
-     =============================== */
-  --bg1:#0b1a2a;        /* deep navy */
-  --bg2:#4a0f0f;        /* deep maroon */
-  --gold:#d4a44c;       /* lion mane gold */
+  --bg1:#0b1a2a;
+  --bg2:#4a0f0f;
+  --gold:#d4a44c;
 
   --text:#ffffff;
   --muted:rgba(255,255,255,0.68);
@@ -33,9 +39,7 @@ html,body{
   height:100%;
 }
 
-/* =================================================
-   SCENE HINT
-   ================================================= */
+/* Hint */
 .scene-hint{
   position:absolute;
   top:14px;
@@ -47,9 +51,7 @@ html,body{
   z-index:3;
 }
 
-/* =================================================
-   LOGO
-   ================================================= */
+/* Logo */
 .logo-core{
   position:absolute;
   top:50%;
@@ -74,9 +76,7 @@ html,body{
   50%{ transform:scale(1.05); }
 }
 
-/* =================================================
-   RADIAL MENU
-   ================================================= */
+/* Radial menu */
 .radial-menu{
   position:absolute;
   inset:0;
@@ -91,16 +91,21 @@ html,body{
   transform:translate(-50%,-50%) scale(.8);
   opacity:0;
   pointer-events:none;
+
   background:none;
   border:none;
+  padding:0;
   cursor:pointer;
+
   display:flex;
   flex-direction:column;
   align-items:center;
   gap:8px;
+
   transition:.35s ease;
 }
 
+/* icon sizing */
 .menu-item img,
 .menu-item .menu-svg{
   width:40px;
@@ -108,11 +113,13 @@ html,body{
   filter: drop-shadow(0 0 12px rgba(255,255,255,0.25));
 }
 
+/* ✅ FORCE menu labels to white + consistent font */
 .menu-item span{
   font-family:"Matchday", system-ui;
-  font-size:1.1rem;
+  font-size:1.05rem;   /* keep reasonable */
   font-weight:700;
-  color:#ffffff;             /* ✅ FORCE WHITE */
+  color:#ffffff !important;
+  text-shadow: 0 8px 18px rgba(0,0,0,0.55);
 }
 
 .scene.is-open .menu-item{
@@ -121,9 +128,7 @@ html,body{
   transform:translate(-50%,-50%) scale(1);
 }
 
-/* =================================================
-   OVERLAY
-   ================================================= */
+/* Overlay */
 .overlay{
   position:absolute;
   inset:0;
@@ -146,7 +151,6 @@ html,body{
   padding:18px 18px 24px;
   max-height:calc(100vh - 96px);
   overflow:auto;
-  position:relative;
 }
 
 .close-btn{
@@ -155,14 +159,12 @@ html,body{
   float:right;
   background:none;
   border:none;
-  color:#ffffff;             /* ✅ WHITE */
+  color:#fff;
   font-size:26px;
   cursor:pointer;
 }
 
-/* =================================================
-   HEADERS
-   ================================================= */
+/* Titles */
 .overlay-title{
   font-size:2rem;
   font-weight:800;
@@ -174,16 +176,13 @@ html,body{
   margin-bottom:12px;
 }
 
-/* =================================================
-   GRID & CARDS (LEVEL 1 & 2)
-   ================================================= */
+/* Grid & cards */
 .card-grid{
   display:grid;
   grid-template-columns:1fr;
   gap:12px;
   margin-top:12px;
 }
-
 @media(min-width:720px){
   .card-grid{ grid-template-columns:1fr 1fr; }
 }
@@ -196,6 +195,7 @@ html,body{
   padding:14px;
   cursor:pointer;
   transition:.2s ease;
+  overflow:hidden; /* ✅ prevents weird bleed */
 }
 
 .card:hover{
@@ -203,9 +203,102 @@ html,body{
   border-color:rgba(212,164,76,0.35);
 }
 
-/* =================================================
-   ✅ LEVEL‑3 DETAIL CARD (DRILL‑DOWN)
-   ================================================= */
+/* ✅ HARD LOCK tournament icon size so it never becomes huge */
+.card-top img,
+.card-left img,
+.card-icon{
+  width:34px !important;
+  height:34px !important;
+  object-fit:contain;
+  flex: 0 0 auto;
+  filter: drop-shadow(0 0 10px rgba(212,164,76,0.15));
+}
+
+/* ✅ prevent any accidental big images inside cards */
+.card img{
+  max-width:100%;
+  height:auto;
+}
+
+/* Back button — alive */
+.back-btn,
+.clear-btn{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+
+  padding:8px 14px;
+  border-radius:999px;
+
+  background:rgba(255,255,255,0.14);
+  border:1px solid rgba(255,255,255,0.28);
+
+  color:#ffffff !important;
+  font-size:.85rem;
+  cursor:pointer;
+  transition:.2s ease;
+}
+
+.back-btn:hover,
+.clear-btn:hover{
+  background:rgba(212,164,76,0.22);
+  border-color:rgba(212,164,76,0.65);
+}
+
+/* Squad search */
+.squad-search{
+  display:flex;
+  gap:10px;
+  margin-bottom:12px;
+}
+
+.squad-search input{
+  width:100%;
+  padding:10px 14px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,0.25);
+  background:rgba(255,255,255,0.08);
+  color:#ffffff;
+  font-size:.95rem;
+}
+.squad-search input::placeholder{
+  color:rgba(255,255,255,0.55);
+}
+
+/* Squad cards */
+.player-card{
+  text-align:center;
+  padding:16px 14px;
+}
+
+.avatar{
+  width:92px;
+  height:92px;
+  border-radius:50%;
+  margin:0 auto 12px;
+  background:rgba(255,255,255,0.06);
+  display:grid;
+  place-items:center;
+  overflow:hidden;
+}
+
+.avatar img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.player-name{
+  font-size:1.05rem;
+  font-weight:900;
+  color:#fff;
+}
+.player-role{
+  font-size:.95rem;
+  color:var(--muted);
+}
+
+/* Detail card (Level 3) */
 .detail-card{
   max-width:520px;
   margin:32px auto 0;
@@ -222,9 +315,7 @@ html,body{
   margin:0 auto 16px;
 }
 
-.detail-row{
-  margin-bottom:14px;
-}
+.detail-row{ margin-bottom:14px; }
 
 .detail-label{
   font-size:.85rem;
@@ -245,77 +336,12 @@ html,body{
   border-top:1px solid rgba(255,255,255,0.12);
 }
 
-/* =================================================
-   ✅ BACK BUTTON (FIXED & ALIVE)
-   ================================================= */
-.back-btn{
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  padding:8px 12px;
-  border-radius:999px;
-  background:rgba(255,255,255,0.12);
-  border:1px solid rgba(255,255,255,0.25);
-  color:#ffffff;            /* ✅ WHITE TEXT */
-  font-size:.85rem;
-  cursor:pointer;
-  transition:.2s ease;
-}
-
-.back-btn:hover{
-  background:rgba(212,164,76,0.22);
-  border-color:rgba(212,164,76,0.6);
-}
-
-/* =================================================
-   ✅ SQUAD SEARCH (FIXED)
-   ================================================= */
-.squad-search{
-  display:flex;
-  gap:10px;
-  margin-bottom:12px;
-}
-
-.squad-search input{
-  width:100%;
-  padding:10px 14px;
-  border-radius:999px;
-  border:1px solid rgba(255,255,255,0.25);
-  background:rgba(255,255,255,0.08);
-  color:#ffffff;           /* ✅ WHITE */
-  font-size:.95rem;
-}
-
-.squad-search input::placeholder{
-  color:rgba(255,255,255,0.55);
-}
-
-.squad-search .clear-btn{
-  padding:8px 14px;
-  border-radius:999px;
-  background:rgba(255,255,255,0.14);
-  border:1px solid rgba(255,255,255,0.28);
-  color:#ffffff;            /* ✅ WHITE TEXT */
-  font-size:.85rem;
-  cursor:pointer;
-  transition:.2s ease;
-}
-
-.squad-search .clear-btn:hover{
-  background:rgba(212,164,76,0.22);
-  border-color:rgba(212,164,76,0.65);
-}
-
-/* =================================================
-   MOBILE
-   ================================================= */
+/* Mobile */
 @media(max-width:480px){
   .logo-core img{ width:min(430px,86vw); }
   .menu-item span{ font-size:1rem; }
   .overlay-title{ font-size:1.6rem; }
   .avatar{ width:84px; height:84px; }
-  .detail-card{
-    margin-top:20px;
-    padding:18px;
-  }
+  .detail-card{ margin-top:20px; padding:18px; }
 }
+``
