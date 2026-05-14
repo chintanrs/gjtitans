@@ -12,34 +12,25 @@ closeBtn.addEventListener("click", () => {
   overlay.setAttribute("aria-hidden", "true");
 });
 
-/* ---- Perfect dial angles (auto) ----
-   Order defines positions around the dial:
-   Top → Right → Bottom → Left (clockwise)
-*/
+/* Perfect dial order */
 const dialOrder = ["squad", "fixtures", "gallery", "about"];
 const angleMap = (() => {
   const n = dialOrder.length;
-  const start = -90; // top
+  const start = -90;
   const step = 360 / n;
   const map = {};
   dialOrder.forEach((key, i) => (map[key] = start + i * step));
   return map;
 })();
 
-/* Menu open/close (safe bubbling) */
 logo.addEventListener("click", (e) => {
   e.stopPropagation();
   scene.classList.toggle("is-open");
-  if (scene.classList.contains("is-open")) {
-    requestAnimationFrame(positionMenu);
-  }
+  if (scene.classList.contains("is-open")) requestAnimationFrame(positionMenu);
 });
 
-scene.addEventListener("click", () => {
-  scene.classList.remove("is-open");
-});
+scene.addEventListener("click", () => scene.classList.remove("is-open"));
 
-/* Menu item click -> open overlay */
 menuItems.forEach(btn => {
   btn.addEventListener("click", (e) => {
     e.stopPropagation();
@@ -47,7 +38,6 @@ menuItems.forEach(btn => {
   });
 });
 
-/* Position radial menu around logo */
 function positionMenu(){
   const r = logo.getBoundingClientRect();
   const cx = r.left + r.width / 2;
@@ -68,35 +58,34 @@ function positionMenu(){
   });
 }
 
-/* Reposition on rotate/resize */
 window.addEventListener("resize", () => {
-  if (scene.classList.contains("is-open")) {
-    requestAnimationFrame(positionMenu);
-  }
+  if (scene.classList.contains("is-open")) requestAnimationFrame(positionMenu);
 });
 
-/* ---------------- Fixtures drill-down ---------------- */
+/* ---------- FIXTURES STATE ---------- */
 let fixturesCache = null;
-let fixturesState = { level: "tournaments", tournamentIndex: null, matchIndex: null };
+let fixturesState = { level:"tournaments", tournamentIndex:null, matchIndex:null };
 
-/* ---------------- Squad state ---------------- */
+/* ---------- SQUAD STATE ---------- */
 let squadCache = null;
-let squadState = { query:"", selectedIndex:null, scrollTop:0 };
+let squadState = { query:"", selectedIndex:null };
 
 async function openOverlay(type){
   overlay.classList.add("active");
-  overlay.setAttribute("aria-hidden", "false");
+  overlay.setAttribute("aria-hidden","false");
   scene.classList.remove("is-open");
-  overlayBody.innerHTML = `<p class="subtext">Loading…</p>`;
-
-  if (type === "about"){ renderAbout(); return; }
 
   if (type === "gallery"){
     overlayBody.innerHTML = `
       <div class="fade-in">
-        <div class="overlay-header"><h1 class="overlay-title">Gallery</h1></div>
+        <h1 class="overlay-title">Gallery</h1>
         <p class="subtext">Photos coming soon 📸</p>
       </div>`;
+    return;
+  }
+
+  if (type === "about"){
+    await renderAbout();
     return;
   }
 
@@ -108,58 +97,41 @@ async function openOverlay(type){
   }
 
   if (type === "squad"){
-    if (!squadCache){
-      squadCache = await fetch("assets/data/squad.json", { cache:"no-store" }).then(r=>r.json());
-    }
+    squadCache = await fetch("assets/data/squad.json", { cache:"no-store" }).then(r=>r.json());
     squadState.query = "";
     squadState.selectedIndex = null;
-    squadState.scrollTop = 0;
     renderSquadList();
     return;
   }
 }
 
-/* ===== About Us ===== */
+/* About JSON loader (safe) */
 async function renderAbout(){
-  try {
-    const data = await fetch("assets/data/about.json", { cache: "no-store" })
-      .then(r => r.json());
+  try{
+    const res = await fetch("assets/data/about.json", { cache:"no-store" });
+    const data = await res.json();
 
-    overlayBody.innerHTML = `
-      <div class="fade-in about-wrap">
-        <h1 class="about-h1">${escapeHtml(data.header)}</h1>
-
-        ${data.sections.map(s => `
-          <p class="about-p">${escapeHtml(s.text)}</p>
-        `).join("")}
-
-        <h2 class="about-h2">${escapeHtml(data.image.title)}</h2>
-
-        <div class="about-image-slot">
-          <strong>Photo Slot</strong><br />
-          ${escapeHtml(data.image.description)}
-        </div>
-      </div>
-    `;
-  } catch (err) {
     overlayBody.innerHTML = `
       <div class="fade-in">
-        <h1 class="overlay-title">About Us</h1>
-        <p class="subtext">Unable to load content.</p>
-      </div>
-    `;
+        <h1 class="overlay-title">${escapeHtml(data.header || "Our Roots")}</h1>
+        ${(data.sections || []).map(s => `<p class="subtext">${escapeHtml(s.text || "")}</p>`).join("")}
+      </div>`;
+  }catch{
+    overlayBody.innerHTML = `
+      <div class="fade-in">
+        <h1 class="overlay-title">Our Roots</h1>
+        <p class="subtext">We’re a group of friends in the GTA — born and raised in India — and cricket has always been part of our heritage and our DNA.</p>
+      </div>`;
   }
 }
 
-/* ===== Fixtures Step 1 ===== */
+/* ===== FIXTURES 3‑tier ===== */
 function renderFixturesStep1(){
   const tournaments = fixturesCache?.tournaments || [];
 
   overlayBody.innerHTML = `
     <div class="fade-in">
-      <div class="overlay-header">
-        <h1 class="overlay-title">Fixtures</h1>
-      </div>
+      <h1 class="overlay-title">Fixtures</h1>
       <p class="subtext">Select a tournament</p>
 
       <div class="card-grid">
@@ -178,30 +150,24 @@ function renderFixturesStep1(){
           </div>
         `).join("")}
       </div>
-    </div>
-  `;
+    </div>`;
 
   overlayBody.querySelectorAll("[data-tournament-index]").forEach(card => {
     card.addEventListener("click", () => {
-      fixturesState.level = "matches";
       fixturesState.tournamentIndex = Number(card.dataset.tournamentIndex);
       renderFixturesStep2();
     });
   });
 }
 
-/* ===== Fixtures Step 2 ===== */
 function renderFixturesStep2(){
   const t = fixturesCache.tournaments[fixturesState.tournamentIndex];
   const fixtures = t.fixtures || [];
 
   overlayBody.innerHTML = `
     <div class="fade-in">
-      <div class="overlay-header">
-        <button class="back-btn" id="backToTournaments" type="button">← Back</button>
-        <h1 class="overlay-title">${t.name} ${t.season}</h1>
-        <div style="width:72px;"></div>
-      </div>
+      <button class="back-btn" id="backToTournaments" type="button">← Back</button>
+      <h1 class="overlay-title">${t.name} ${t.season}</h1>
       <p class="subtext">Select a match</p>
 
       <div class="card-grid">
@@ -212,32 +178,25 @@ function renderFixturesStep2(){
           </div>
         `).join("")}
       </div>
-    </div>
-  `;
+    </div>`;
 
-  overlayBody.querySelector("#backToTournaments").addEventListener("click", () => renderFixturesStep1());
-
+  overlayBody.querySelector("#backToTournaments").addEventListener("click", renderFixturesStep1);
   overlayBody.querySelectorAll("[data-match-index]").forEach(card => {
     card.addEventListener("click", () => {
-      fixturesState.level = "detail";
       fixturesState.matchIndex = Number(card.dataset.matchIndex);
       renderFixturesStep3();
     });
   });
 }
 
-/* ===== Fixtures Step 3 ===== */
 function renderFixturesStep3(){
   const t = fixturesCache.tournaments[fixturesState.tournamentIndex];
   const f = t.fixtures[fixturesState.matchIndex];
 
   overlayBody.innerHTML = `
     <div class="fade-in">
-      <div class="overlay-header">
-        <button class="back-btn" id="backToMatches" type="button">← Back</button>
-        <h1 class="overlay-title">Match Details</h1>
-        <div style="width:72px;"></div>
-      </div>
+      <button class="back-btn" id="backToMatches" type="button">← Back</button>
+      <h1 class="overlay-title">Match Details</h1>
 
       <div class="detail-card">
         <div class="detail-row">
@@ -253,163 +212,122 @@ function renderFixturesStep3(){
           <div class="detail-value">${f.venue}</div>
         </div>
       </div>
-    </div>
-  `;
+    </div>`;
 
-  overlayBody.querySelector("#backToMatches").addEventListener("click", () => renderFixturesStep2());
-}
-
-/* ================== Squad (search + detail) ================== */
-function normalized(str=""){ return String(str).toLowerCase().trim(); }
-function getFirstName(name=""){
-  const parts = String(name).trim().split(/\s+/);
-  return (parts[0] || "").toLowerCase();
-}
-function initialsFromName(name=""){
-  const parts = String(name).trim().split(/\s+/);
-  const a = parts[0]?.[0] || "";
-  const b = parts[1]?.[0] || "";
-  return (a + b).toUpperCase() || (parts[0]?.slice(0,2).toUpperCase() || "GT");
-}
-function escapeHtml(str=""){
-  return String(str)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
-}
-function capitalize(s=""){
-  const str = String(s);
-  return str.charAt(0).toUpperCase() + str.slice(1);
-}
-function getSortedPlayers(){
-  const list = squadCache?.items ? [...squadCache.items] : [];
-  list.sort((p1, p2) => getFirstName(p1.name).localeCompare(getFirstName(p2.name)));
-  return list;
+  overlayBody.querySelector("#backToMatches").addEventListener("click", renderFixturesStep2);
 }
 
+/* ===== SQUAD list + search + detail ===== */
 function renderSquadList(){
-  const all = getSortedPlayers();
-  const q = normalized(squadState.query);
-  const filtered = q ? all.filter(p => normalized(p.name).includes(q)) : all;
+  const list = [...(squadCache.items || [])].sort((a,b)=>a.name.localeCompare(b.name));
+  const q = squadState.query.toLowerCase().trim();
+  const filtered = q ? list.filter(p=>p.name.toLowerCase().includes(q)) : list;
 
   overlayBody.innerHTML = `
     <div class="fade-in">
-      <div class="overlay-header">
-        <h1 class="overlay-title">Squad</h1>
-      </div>
+      <h1 class="overlay-title">Squad</h1>
 
       <div class="squad-search">
-        <input id="squadSearch" type="text" placeholder="Search players (A–Z)…" value="${escapeHtml(squadState.query)}" />
+        <input id="squadSearch" type="text" placeholder="Search players (A–Z)…" value="${escapeHtml(squadState.query)}">
         <button class="clear-btn" id="clearSearch" type="button">Clear</button>
       </div>
 
       ${filtered.length === 0 ? `
-        <div class="empty-state">
-          <div class="msg">No players found.</div>
-          <button class="clear-btn" id="clearSearch2" type="button">Clear search</button>
-        </div>
+        <p class="subtext">No players found.</p>
+        <button class="clear-btn" id="clearSearch2" type="button">Clear search</button>
       ` : `
         <div class="card-grid">
-          ${filtered.map((p, idx) => renderPlayerCard(p, idx)).join("")}
+          ${filtered.map((p, idx)=>`
+            <div class="card player-card" data-player-index="${idx}">
+              <div class="avatar">
+                ${p.avatar ? `<img src="${p.avatar}" alt="">` : `<div class="initials">${initialsFromName(p.name)}</div>`}
+              </div>
+              <div class="player-name">${escapeHtml(p.name)}</div>
+              <div class="player-role">${escapeHtml(p.role || "")}</div>
+            </div>
+          `).join("")}
         </div>
       `}
-    </div>
-  `;
+    </div>`;
 
   const input = overlayBody.querySelector("#squadSearch");
-  const clear = overlayBody.querySelector("#clearSearch");
-  const clear2 = overlayBody.querySelector("#clearSearch2");
-
   input.addEventListener("input", () => {
-    const cursorPos = input.selectionStart;
+    const caret = input.selectionStart;
     squadState.query = input.value;
     renderSquadList();
     const newInput = overlayBody.querySelector("#squadSearch");
-    if (newInput) {
+    if (newInput){
       newInput.focus();
-      newInput.setSelectionRange(cursorPos, cursorPos);
+      newInput.setSelectionRange(caret, caret);
     }
   });
 
-  const clearAction = () => { squadState.query = ""; renderSquadList(); };
-  clear.addEventListener("click", clearAction);
+  const clearAction = () => { squadState.query=""; renderSquadList(); };
+  overlayBody.querySelector("#clearSearch").addEventListener("click", clearAction);
+  const clear2 = overlayBody.querySelector("#clearSearch2");
   if (clear2) clear2.addEventListener("click", clearAction);
 
-  overlayBody.querySelectorAll("[data-player-index]").forEach(el => {
-    el.addEventListener("click", () => {
+  overlayBody.querySelectorAll("[data-player-index]").forEach(el=>{
+    el.addEventListener("click", ()=>{
       squadState.selectedIndex = Number(el.dataset.playerIndex);
-      renderSquadDetail();
+      renderSquadDetail(filtered);
     });
   });
 }
 
-function renderPlayerCard(p, idx){
-  const avatar = p.avatar
-    ? `<div class="avatar"><img src="${p.avatar}" alt=""></div>`
-    : `<div class="avatar"><div class="initials">${initialsFromName(p.name)}</div></div>`;
-
-  return `
-    <div class="card player-card" data-player-index="${idx}">
-      ${avatar}
-      <p class="player-name">${escapeHtml(p.name)}</p>
-      <div class="player-role">${escapeHtml(p.role || "player")}</div>
-    </div>
-  `;
-}
-
-function renderSquadDetail(){
-  const all = getSortedPlayers();
-  const q = normalized(squadState.query);
-  const filtered = q ? all.filter(p => normalized(p.name).includes(q)) : all;
-  const player = filtered[squadState.selectedIndex];
-  if (!player){ renderSquadList(); return; }
-
-  const primaryRole = player.primaryRole || capitalize(player.role || "Not provided");
-  const battingStyle = player.battingStyle || "Not provided";
-  const bowlingStyle = player.bowlingStyle || "Not provided";
-  const bio = player.bio || "Not provided";
-
-  const avatar = player.avatar
-    ? `<div class="avatar"><img src="${player.avatar}" alt=""></div>`
-    : `<div class="avatar"><div class="initials">${initialsFromName(player.name)}</div></div>`;
+function renderSquadDetail(filtered){
+  const p = filtered[squadState.selectedIndex];
+  if (!p){ renderSquadList(); return; }
 
   overlayBody.innerHTML = `
     <div class="fade-in">
-      <div class="overlay-header">
-        <button class="back-btn" id="backToSquad" type="button">← Back</button>
-        <h1 class="overlay-title">${escapeHtml(player.name)}</h1>
-        <div style="width:72px;"></div>
-      </div>
+      <button class="back-btn" id="backToSquad" type="button">← Back</button>
+      <h1 class="overlay-title">${escapeHtml(p.name)}</h1>
 
       <div class="detail-card">
-        ${avatar}
+        <div class="avatar">
+          ${p.avatar ? `<img src="${p.avatar}" alt="">` : `<div class="initials">${initialsFromName(p.name)}</div>`}
+        </div>
 
         <div class="detail-row">
           <div class="detail-label">Primary Role</div>
-          <div class="detail-value">${escapeHtml(primaryRole)}</div>
+          <div class="detail-value">${escapeHtml(p.primaryRole || p.role || "Not provided")}</div>
         </div>
 
         <div class="detail-section">
-          <h3>Batting Style</h3>
-          <p>${escapeHtml(battingStyle)}</p>
+          <div class="detail-label">Batting Style</div>
+          <div class="detail-value">${escapeHtml(p.battingStyle || "Not provided")}</div>
         </div>
 
         <div class="detail-section">
-          <h3>Bowling Style</h3>
-          <p>${escapeHtml(bowlingStyle)}</p>
+          <div class="detail-label">Bowling Style</div>
+          <div class="detail-value">${escapeHtml(p.bowlingStyle || "Not provided")}</div>
         </div>
 
         <div class="detail-section">
-          <h3>Short Description</h3>
-          <p>${escapeHtml(bio)}</p>
+          <div class="detail-label">Short Description</div>
+          <div class="detail-value">${escapeHtml(p.bio || "Not provided")}</div>
         </div>
       </div>
-    </div>
-  `;
+    </div>`;
 
-  overlayBody.querySelector("#backToSquad").addEventListener("click", () => {
-    renderSquadList();
-  });
+  overlayBody.querySelector("#backToSquad").addEventListener("click", renderSquadList);
 }
+
+/* helpers */
+function escapeHtml(str=""){
+  return String(str)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+function initialsFromName(name=""){
+  const parts = String(name).trim().split(/\s+/);
+  const a = parts[0]?.[0] || "";
+  const b = parts[1]?.[0] || "";
+  return (a+b).toUpperCase() || (parts[0]?.slice(0,2).toUpperCase() || "GL");
+}
+``
