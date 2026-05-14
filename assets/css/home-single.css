@@ -105,13 +105,14 @@ html,body{
 .menu-item .menu-svg{
   width:40px;
   height:40px;
-  filter: drop-shadow(0 0 12px rgba(255,255,255,0.20));
+  filter: drop-shadow(0 0 12px rgba(255,255,255,0.25));
 }
 
 .menu-item span{
   font-family:"Matchday", system-ui;
   font-size:1.1rem;
   font-weight:700;
+  color:#ffffff;             /* ✅ FORCE WHITE */
 }
 
 .scene.is-open .menu-item{
@@ -154,7 +155,7 @@ html,body{
   float:right;
   background:none;
   border:none;
-  color:#fff;
+  color:#ffffff;             /* ✅ WHITE */
   font-size:26px;
   cursor:pointer;
 }
@@ -203,8 +204,7 @@ html,body{
 }
 
 /* =================================================
-   ✅ LEVEL‑3 DETAIL VIEW (CRITICAL FIX)
-   Applies to Squad Player Detail & Match Detail
+   ✅ LEVEL‑3 DETAIL CARD (DRILL‑DOWN)
    ================================================= */
 .detail-card{
   max-width:520px;
@@ -216,21 +216,12 @@ html,body{
   box-shadow:var(--shadow);
 }
 
-/* center avatar in detail */
 .detail-card .avatar{
   width:96px;
   height:96px;
   margin:0 auto 16px;
 }
 
-/* align titles nicely */
-.detail-card h1,
-.detail-card h2{
-  text-align:center;
-  margin-bottom:16px;
-}
-
-/* spacing inside detail content */
 .detail-row{
   margin-bottom:14px;
 }
@@ -255,42 +246,29 @@ html,body{
 }
 
 /* =================================================
-   SQUAD (LEVEL 1 & 2)
+   ✅ BACK BUTTON (FIXED & ALIVE)
    ================================================= */
-.player-card{
-  text-align:center;
-  padding:16px 14px;
+.back-btn{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:8px 12px;
+  border-radius:999px;
+  background:rgba(255,255,255,0.12);
+  border:1px solid rgba(255,255,255,0.25);
+  color:#ffffff;            /* ✅ WHITE TEXT */
+  font-size:.85rem;
+  cursor:pointer;
+  transition:.2s ease;
 }
 
-.avatar{
-  width:92px;
-  height:92px;
-  border-radius:50%;
-  margin:0 auto 12px;
-  background:rgba(255,255,255,0.06);
-  display:grid;
-  place-items:center;
-  overflow:hidden;
-}
-
-.avatar img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-
-.player-name{
-  font-size:1.15rem;
-  font-weight:900;
-}
-
-.player-role{
-  font-size:.95rem;
-  color:var(--muted);
+.back-btn:hover{
+  background:rgba(212,164,76,0.22);
+  border-color:rgba(212,164,76,0.6);
 }
 
 /* =================================================
-   SEARCH BAR
+   ✅ SQUAD SEARCH (FIXED)
    ================================================= */
 .squad-search{
   display:flex;
@@ -302,25 +280,30 @@ html,body{
   width:100%;
   padding:10px 14px;
   border-radius:999px;
-  border:1px solid rgba(255,255,255,0.2);
+  border:1px solid rgba(255,255,255,0.25);
   background:rgba(255,255,255,0.08);
-  color:#fff;
+  color:#ffffff;           /* ✅ WHITE */
   font-size:.95rem;
 }
 
-.squad-search .clear-btn{
-  padding:8px 12px;
-  border-radius:999px;
-  font-size:.85rem;
+.squad-search input::placeholder{
+  color:rgba(255,255,255,0.55);
 }
 
-/* =================================================
-   FIXTURES ICON SIZE FIX
-   ================================================= */
-.card-icon{
-  width:34px;
-  height:34px;
-  flex-shrink:0;
+.squad-search .clear-btn{
+  padding:8px 14px;
+  border-radius:999px;
+  background:rgba(255,255,255,0.14);
+  border:1px solid rgba(255,255,255,0.28);
+  color:#ffffff;            /* ✅ WHITE TEXT */
+  font-size:.85rem;
+  cursor:pointer;
+  transition:.2s ease;
+}
+
+.squad-search .clear-btn:hover{
+  background:rgba(212,164,76,0.22);
+  border-color:rgba(212,164,76,0.65);
 }
 
 /* =================================================
