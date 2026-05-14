@@ -1,69 +1,338 @@
+:root{
+  /* ===============================
+     GJ LIONS BRAND PALETTE
+     =============================== */
+  --bg1:#0b1a2a;        /* deep navy */
+  --bg2:#4a0f0f;        /* deep maroon */
+  --gold:#d4a44c;       /* lion mane gold */
+
+  --text:#ffffff;
+  --muted:rgba(255,255,255,0.68);
+
+  --cardBg: rgba(255,255,255,0.06);
+  --cardBorder: rgba(255,255,255,0.14);
+  --shadow: 0 18px 40px rgba(0,0,0,0.5);
+  --radius: 14px;
+}
+
+*{ box-sizing:border-box; }
+
+html,body{
+  margin:0;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  font-family: system-ui, -apple-system, "Segoe UI";
+  background: radial-gradient(circle at center, var(--bg2), var(--bg1));
+  color:var(--text);
+}
+
+.scene{
+  position:relative;
+  width:100%;
+  height:100%;
+}
+
 /* =================================================
-   FIX: LEVEL‑3 DRILL‑DOWN (DETAIL VIEW CARDS)
-   Applies to Squad Detail & Fixture Detail
+   SCENE HINT
    ================================================= */
+.scene-hint{
+  position:absolute;
+  top:14px;
+  width:100%;
+  text-align:center;
+  font-size:12px;
+  color:rgba(255,255,255,.45);
+  pointer-events:none;
+  z-index:3;
+}
 
-/* Force detail views into a centered card layout */
+/* =================================================
+   LOGO
+   ================================================= */
+.logo-core{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  background:none;
+  border:none;
+  cursor:pointer;
+  z-index:5;
+}
+
+.logo-core img{
+  width:min(520px,75vw);
+  animation:breathe 6s ease-in-out infinite;
+  filter:
+    drop-shadow(0 0 28px rgba(212,164,76,0.45))
+    drop-shadow(0 0 85px rgba(212,164,76,0.25));
+}
+
+@keyframes breathe{
+  0%,100%{ transform:scale(1); }
+  50%{ transform:scale(1.05); }
+}
+
+/* =================================================
+   RADIAL MENU
+   ================================================= */
+.radial-menu{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  z-index:6;
+}
+
+.menu-item{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%) scale(.8);
+  opacity:0;
+  pointer-events:none;
+  background:none;
+  border:none;
+  cursor:pointer;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:8px;
+  transition:.35s ease;
+}
+
+.menu-item img,
+.menu-item .menu-svg{
+  width:40px;
+  height:40px;
+  filter: drop-shadow(0 0 12px rgba(255,255,255,0.20));
+}
+
+.menu-item span{
+  font-family:"Matchday", system-ui;
+  font-size:1.1rem;
+  font-weight:700;
+}
+
+.scene.is-open .menu-item{
+  opacity:1;
+  pointer-events:auto;
+  transform:translate(-50%,-50%) scale(1);
+}
+
+/* =================================================
+   OVERLAY
+   ================================================= */
+.overlay{
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,.65);
+  backdrop-filter:blur(14px);
+  opacity:0;
+  pointer-events:none;
+  transition:.25s ease;
+  z-index:20;
+}
+
+.overlay.active{
+  opacity:1;
+  pointer-events:auto;
+}
+
+.overlay-content{
+  max-width:840px;
+  margin:56px auto 0;
+  padding:18px 18px 24px;
+  max-height:calc(100vh - 96px);
+  overflow:auto;
+  position:relative;
+}
+
+.close-btn{
+  position:sticky;
+  top:10px;
+  float:right;
+  background:none;
+  border:none;
+  color:#fff;
+  font-size:26px;
+  cursor:pointer;
+}
+
+/* =================================================
+   HEADERS
+   ================================================= */
+.overlay-title{
+  font-size:2rem;
+  font-weight:800;
+  margin:0 0 8px;
+}
+
+.subtext{
+  color:var(--muted);
+  margin-bottom:12px;
+}
+
+/* =================================================
+   GRID & CARDS (LEVEL 1 & 2)
+   ================================================= */
+.card-grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:12px;
+  margin-top:12px;
+}
+
+@media(min-width:720px){
+  .card-grid{ grid-template-columns:1fr 1fr; }
+}
+
+.card{
+  border-radius:var(--radius);
+  border:1px solid var(--cardBorder);
+  background:var(--cardBg);
+  box-shadow:var(--shadow);
+  padding:14px;
+  cursor:pointer;
+  transition:.2s ease;
+}
+
+.card:hover{
+  transform:translateY(-2px);
+  border-color:rgba(212,164,76,0.35);
+}
+
+/* =================================================
+   ✅ LEVEL‑3 DETAIL VIEW (CRITICAL FIX)
+   Applies to Squad Player Detail & Match Detail
+   ================================================= */
 .detail-card{
-  max-width: 520px;              /* ✅ readable card width */
-  margin: 32px auto 0;           /* ✅ center horizontally */
-  padding: 22px 22px 24px;
-
-  background: rgba(0,0,0,0.55);  /* ✅ solid surface */
-  border: 1px solid var(--cardBorder);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
+  max-width:520px;
+  margin:32px auto 0;
+  padding:24px;
+  background:rgba(0,0,0,0.55);
+  border:1px solid var(--cardBorder);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
 }
 
-/* Center avatar in detail view */
+/* center avatar in detail */
 .detail-card .avatar{
-  width: 96px;
-  height: 96px;
-  margin: 0 auto 16px;           /* ✅ center avatar */
+  width:96px;
+  height:96px;
+  margin:0 auto 16px;
 }
 
-/* Player / Match title spacing */
+/* align titles nicely */
 .detail-card h1,
 .detail-card h2{
-  text-align: center;
-  margin-bottom: 16px;
+  text-align:center;
+  margin-bottom:16px;
 }
 
-/* Section spacing inside details */
+/* spacing inside detail content */
 .detail-row{
-  margin-bottom: 14px;
+  margin-bottom:14px;
 }
 
-.detail-section{
-  margin-top: 16px;
-  padding-top: 14px;
-  border-top: 1px solid rgba(255,255,255,0.12);
-}
-
-/* Labels vs values hierarchy */
 .detail-label{
-  font-size: .85rem;
-  text-transform: uppercase;
-  letter-spacing: .04em;
-  color: var(--muted);
+  font-size:.85rem;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+  color:var(--muted);
 }
 
 .detail-value{
-  font-size: 1rem;
-  font-weight: 600;
-  margin-top: 4px;
+  font-size:1rem;
+  font-weight:600;
+  margin-top:4px;
 }
 
-/* Match details multiline spacing */
-.detail-card p{
-  line-height: 1.45;
+.detail-section{
+  margin-top:16px;
+  padding-top:14px;
+  border-top:1px solid rgba(255,255,255,0.12);
 }
 
-/* Mobile tuning */
-@media (max-width: 480px){
+/* =================================================
+   SQUAD (LEVEL 1 & 2)
+   ================================================= */
+.player-card{
+  text-align:center;
+  padding:16px 14px;
+}
+
+.avatar{
+  width:92px;
+  height:92px;
+  border-radius:50%;
+  margin:0 auto 12px;
+  background:rgba(255,255,255,0.06);
+  display:grid;
+  place-items:center;
+  overflow:hidden;
+}
+
+.avatar img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.player-name{
+  font-size:1.15rem;
+  font-weight:900;
+}
+
+.player-role{
+  font-size:.95rem;
+  color:var(--muted);
+}
+
+/* =================================================
+   SEARCH BAR
+   ================================================= */
+.squad-search{
+  display:flex;
+  gap:10px;
+  margin-bottom:12px;
+}
+
+.squad-search input{
+  width:100%;
+  padding:10px 14px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,0.2);
+  background:rgba(255,255,255,0.08);
+  color:#fff;
+  font-size:.95rem;
+}
+
+.squad-search .clear-btn{
+  padding:8px 12px;
+  border-radius:999px;
+  font-size:.85rem;
+}
+
+/* =================================================
+   FIXTURES ICON SIZE FIX
+   ================================================= */
+.card-icon{
+  width:34px;
+  height:34px;
+  flex-shrink:0;
+}
+
+/* =================================================
+   MOBILE
+   ================================================= */
+@media(max-width:480px){
+  .logo-core img{ width:min(430px,86vw); }
+  .menu-item span{ font-size:1rem; }
+  .overlay-title{ font-size:1.6rem; }
+  .avatar{ width:84px; height:84px; }
   .detail-card{
-    margin-top: 20px;
-    padding: 18px;
+    margin-top:20px;
+    padding:18px;
   }
 }
-``
